@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BioHygiene OS - Smart Biomedical & Hygiene Telemetry Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="dark-theme">
+  <!-- Top Global System Navigation & Mode Switcher -->
+  <header class="global-navbar" id="global-navbar">
+    <div class="nav-brand">
+      <div class="brand-logo-glow">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+          <circle cx="12" cy="12" r="4" fill="rgba(6, 182, 212, 0.2)" />
+        </svg>
+      </div>
+      <div class="brand-meta">
+        <span class="brand-title">BioHygiene <span class="badge-accent">OS v3.2</span></span>
+        <span class="brand-subtitle">Health, Hygiene & Biomedical Technology Platform</span>
+      </div>
+    </div>
+
+    <!-- Mode Selector: Switch between Web Dashboard, Mobile App, and Dual Mode -->
+    <div class="mode-switcher-container">
+      <span class="switch-label">Presentation View:</span>
+      <div class="mode-pill-group">
+        <button id="view-mode-web" class="mode-btn active" title="Clinician Desktop Web Dashboard">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Web Clinician Portal
+        </button>
+        <button id="view-mode-mobile" class="mode-btn" title="Patient Mobile App Simulator">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"/></svg>
+          Mobile App Simulator
+        </button>
+        <button id="view-mode-dual" class="mode-btn" title="Side-by-side Dual Realtime Sync">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="9" height="16" rx="2"/><rect x="13" y="4" width="9" height="16" rx="2"/></svg>
+          Dual Real-Time Sync
+        </button>
+      </div>
+    </div>
+
+    <!-- Global Top Quick Controls -->
+    <div class="nav-actions">
+      <div class="telemetry-pill">
+        <span class="live-dot pulse"></span>
+        <span id="telemetry-status-text">IoT Sensors: 4 Connected</span>
+      </div>
+      <button id="btn-global-sos" class="btn-sos-pulse" title="Trigger Instant Emergency SOS">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>EMERGENCY SOS</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Viewports Container -->
+  <main class="main-viewport" id="main-viewport">
+
+    <!-- ============================================================= -->
+    <!-- VIEWPORT 1: WEB CLINICIAN & BIOMEDICAL ANALYTICS DASHBOARD    -->
+    <!-- ============================================================= -->
+    <section class="web-dashboard-container" id="web-dashboard-container">
+      
+      <!-- Left Web Sidebar -->
+      <aside class="web-sidebar">
+        <div class="sidebar-user">
+          <div class="avatar-ring">
+            <span class="avatar-initials">DR</span>
+          </div>
+          <div class="user-info">
+            <div class="user-name">Dr. Elena Vance, MD</div>
+            <div class="user-role">Biomedical Lead / Ward A</div>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="nav-item active" data-page="telemetry">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <span>Live Telemetry</span>
+            <span class="badge-mini live">LIVE</span>
+          </button>
+          <button class="nav-item" data-page="hygiene">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            <span>Hygiene & Infection</span>
+          </button>
+          <button class="nav-item" data-page="devices">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/></svg>
+            <span>Biomedical IoT Hub</span>
+          </button>
+          <button class="nav-item" data-page="patients">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Patient EMR Queue</span>
+          </button>
+          <button class="nav-item" data-page="ai-triage">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10h-10V2z"/></svg>
+            <span>AI Risk Triage</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-hardware-status">
+          <div class="hw-header">
+            <span>Hardware Gateway</span>
+            <span class="hw-chip">ESP32 / BLE</span>
+          </div>
+          <div class="hw-bar"><div class="hw-fill" style="width: 88%;"></div></div>
+          <div class="hw-subtext">Sampling rate: 250 Hz (ECG)</div>
+        </div>
+      </aside>
+
+      <!-- Web Main Content Area -->
+      <div class="web-content-scroll">
+        
+        <!-- Live Patient Banner -->
+        <div class="patient-monitor-header">
+          <div class="patient-profile-chip">
+            <div class="patient-avatar">P-104</div>
+            <div>
+              <div class="p-name">Marcus Reynolds (Age: 58) <span class="badge-status normal">Ward 4B - Bed 12</span></div>
+              <div class="p-conditions">Conditions: Post-Op Cardiovascular Monitoring • Hypertensive</div>
+            </div>
+          </div>
+          <div class="quick-telemetry-actions">
+            <button id="btn-export-pdf" class="btn-action-outline">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export Clinical PDF
+            </button>
+            <button id="btn-trigger-anomaly" class="btn-action-warning" title="Simulate patient arrhythmia/fever spike">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Simulate Tachycardia Spike
+            </button>
+            <button id="btn-normalize-vitals" class="btn-action-success">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Reset Normal Vitals
+            </button>
+          </div>
+        </div>
+
+        <!-- 6 Core Vital Telemetry Cards Grid -->
+        <div class="vital-cards-grid">
+          
+          <!-- Card 1: Heart Rate -->
+          <div class="vital-card" id="card-heart-rate">
+            <div class="vital-card-header">
+              <span class="vital-title">Heart Rate (ECG)</span>
+              <span class="vital-icon heart-pulse">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#EF4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </span>
+            </div>
+            <div class="vital-value-wrap">
+              <span class="vital-main-number" id="web-val-hr">74</span>
+              <span class="vital-unit">BPM</span>
+            </div>
+            <div class="vital-status-bar">
+              <span class="vital-status-pill normal" id="web-status-hr">Normal Sinus</span>
+              <span class="vital-range">Target: 60 - 100</span>
+            </div>
+          </div>
+
+          <!-- Card 2: SpO2 Blood Oxygen -->
+          <div class="vital-card" id="card-spo2">
+            <div class="vital-card-header">
+              <span class="vital-title">Blood Oxygen (SpO2)</span>
+              <span class="vital-icon oxygen-bubble">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#06B6D4" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              </span>
+            </div>
+            <div class="vital-value-wrap">
+              <span class="vital-main-number" id="web-val-spo2">98</span>
+              <span class="vital-unit">%</span>
+            </div>
+            <div class="vital-status-bar">
+              <span class="vital-status-pill normal" id="web-status-spo2">Optimal Saturation</span>
+              <span class="vital-range">Target: ≥ 95%</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Body Temperature -->
+          <div class="vital-card" id="card-temp">
+            <div class="vital-card-header">
+              <span class="vital-title">Core Temperature</span>
+              <span class="vital-icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#F59E0B" stroke-width="2"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+              </span>
+            </div>
+            <div class="vital-value-wrap">
+              <span class="vital-main-number" id="web-val-temp">36.8</span>
+              <span class="vital-unit">°C</span>
+            </div>
+            <div class="vital-status-bar">
+              <span class="vital-status-pill normal" id="web-status-temp">Afebrile</span>
+              <span class="vital-range">Target: 36.5 - 37.3</span>
+            </div>
+          </div>
+
+          <!-- Card 4: Blood Pressure -->
+          <div class="vital-card" id="card-bp">
+            <div class="vital-card-header">
+              <span class="vital-title">NIBP (Blood Pressure)</span>
+              <span class="vital-icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#8B5CF6" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+              </span>
+            </div>
+            <div class="vital-value-wrap">
+              <span class="vital-main-number" id="web-val-bp">120/80</span>
+              <span class="vital-unit">mmHg</span>
+            </div>
+            <div class="vital-status-bar">
+              <span class="vital-status-pill normal" id="web-status-bp">Normotensive</span>
+              <span class="vital-range">MAP: 93 mmHg</span>
+            </div>
+          </div>
+
+          <!-- Card 5: Hygiene Compliance Index -->
+          <div class="vital-card highlight-hygiene" id="card-hygiene-index">
+            <div class="vital-card-header">
+              <span class="vital-title">Hygiene Compliance Score</span>
+              <span class="vital-icon hygiene-sparkle">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#10B981" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+              </span>
+            </div>
+            <div class="vital-value-wrap">
+              <span class="vital-main-number" id="web-val-hygiene">94</span>
+              <span class="vital-unit">/ 100</span>
+            </div>
+            <div class="vital-status-bar">
+              <span class="vital-status-pill high" id="web-status-hygiene">Grade A (Strict Sterile)</span>
+              <span class="vital-range">Daily Clean Index</span>
+            </div>
+          </div>
+
+          <!-- Card 6: Infection Risk Predictor -->
+          <div class="vital-card highlight-risk" id="card-infection-risk">
+            <div class="vital-card-header">
+              <span class="vital-title">Nosocomial Infection Risk</span>
+              <span class="vital-icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#06B6D4" stroke-width="2"><shield d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </span>
+            </div>
+            <div class="vital-value-wrap">
+              <span class="vital-main-number" id="web-val-risk">Low</span>
+              <span class="vital-unit">4.2%</span>
+            </div>
+            <div class="vital-status-bar">
+              <span class="vital-status-pill low" id="web-status-risk">Standard Precautions</span>
+              <span class="vital-range">AI Model v4</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Real-Time ECG Lead II Oscilloscope Canvas -->
+        <div class="ecg-oscilloscope-container">
+          <div class="ecg-topbar">
+            <div class="ecg-title-group">
+              <span class="ecg-led pulse"></span>
+              <span class="ecg-channel-name">ECG Lead II Telemetry Waveform</span>
+              <span class="ecg-meta-rate">Sweep: 25 mm/s • Gain: 10 mm/mV • Lead II (Biopotential Patch)</span>
+            </div>
+            <div class="ecg-controls">
+              <button id="btn-ecg-freeze" class="btn-micro">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                Freeze Trace
+              </button>
+              <button id="btn-ecg-speed" class="btn-micro">25 mm/s</button>
+              <span class="ecg-bpm-readout"><strong id="ecg-live-bpm">74</strong> BPM</span>
+            </div>
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="ecgCanvas" width="1050" height="210"></canvas>
+            <div class="canvas-grid-overlay"></div>
+          </div>
+        </div>
+
+        <!-- Bottom Web Analytics: Hygiene Station Grid & AI Clinical Insights -->
+        <div class="web-analytics-row">
+          
+          <!-- Smart Dispenser & Ward Hygiene Matrix -->
+          <div class="panel-box hygiene-matrix">
+            <div class="panel-header">
+              <div class="panel-title-wrap">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#10B981" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                <h3>IoT Sanitization & Smart Dispenser Grid</h3>
+              </div>
+              <span class="chip-active">Ward 4 Coverage: 98%</span>
+            </div>
+            <div class="dispenser-cards">
+              <div class="dispenser-card">
+                <div class="disp-meta">
+                  <span class="disp-name">Station Alpha (Bed 12 Entry)</span>
+                  <span class="disp-status ok">Online</span>
+                </div>
+                <div class="disp-progress">
+                  <div class="disp-fill green" style="width: 82%;"></div>
+                </div>
+                <div class="disp-stats">Sanitizer: <strong>82%</strong> • Uses today: <strong>148</strong></div>
+              </div>
+
+              <div class="dispenser-card">
+                <div class="disp-meta">
+                  <span class="disp-name">Station Beta (Doctor Wash Basin)</span>
+                  <span class="disp-status ok">Online</span>
+                </div>
+                <div class="disp-progress">
+                  <div class="disp-fill blue" style="width: 64%;"></div>
+                </div>
+                <div class="disp-stats">Sanitizer: <strong>64%</strong> • Uses today: <strong>210</strong></div>
+              </div>
+
+              <div class="dispenser-card">
+                <div class="disp-meta">
+                  <span class="disp-name">Station Gamma (Visitor Air Lock)</span>
+                  <span class="disp-status warn">Refill Warning</span>
+                </div>
+                <div class="disp-progress">
+                  <div class="disp-fill amber" style="width: 18%;"></div>
+                </div>
+                <div class="disp-stats">Sanitizer: <strong>18%</strong> • Uses today: <strong>342</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Clinical Triage & Anomaly Logger -->
+          <div class="panel-box ai-assistant">
+            <div class="panel-header">
+              <div class="panel-title-wrap">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#06B6D4" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                <h3>AI Clinical Risk Assessment</h3>
+              </div>
+              <button id="btn-run-ai-check" class="btn-micro-cyan">Re-evaluate Patient</button>
+            </div>
+            
+            <div class="ai-insight-content" id="ai-insight-box">
+              <div class="ai-badge-row">
+                <span class="ai-badge normal">Biometric Baseline Stable</span>
+                <span class="ai-badge normal">Hygiene Protocol Followed</span>
+              </div>
+              <p class="ai-text">
+                Continuous Lead-II analysis indicates standard sinus rhythm (Mean: 74 BPM). Pulse Oximetry reflects consistent alveolar perfusion at 98%. Hand sanitation logs recorded 7 cycles in the past 6 hours, maintaining low bacterial cross-transmission probability.
+              </p>
+              <div class="ai-recommendation">
+                <span class="rec-label">Clinical Recommendation:</span> Continue routine vital sampling. Next scheduled surface disinfection check in 45 minutes.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================= -->
+    <!-- VIEWPORT 2: MOBILE PATIENT APP SIMULATOR (TOUCH INTERACTION)  -->
+    <!-- ============================================================= -->
+    <section class="mobile-simulator-container" id="mobile-simulator-container">
+      <div class="mobile-device-frame">
+        
+        <!-- Hardware Notch / Dynamic Island -->
+        <div class="device-dynamic-island">
+          <div class="speaker-pill"></div>
+          <div class="lens-dot"></div>
+        </div>
+
+        <!-- Phone Screen Content -->
+        <div class="device-screen-content">
+          
+          <!-- Mobile Status Bar -->
+          <div class="mobile-status-bar">
+            <span class="status-time" id="mobile-clock">09:41</span>
+            <div class="status-icons">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M17 6h-2V4c0-1.1-.9-2-2-2h-2c-1.1 0-2 .9-2 2v2H7c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-5-2h2v2h-2V4zm5 16H7V8h10v12z"/></svg>
+            </div>
+          </div>
+
+          <!-- Mobile App Views Container -->
+          <div class="mobile-app-body">
+            
+            <!-- TAB 1: MOBILE HOME (Dashboard) -->
+            <div class="mobile-tab-content active" id="tab-mob-home">
+              <div class="mob-header">
+                <div>
+                  <span class="mob-greeting">Good Morning,</span>
+                  <h2 class="mob-username">Marcus Reynolds</h2>
+                </div>
+                <div class="mob-status-tag" id="mob-device-sync-tag">
+                  <span class="dot-sync"></span> BLE Connected
+                </div>
+              </div>
+
+              <!-- Daily Hygiene Ring & Streak Card -->
+              <div class="mob-card mob-hygiene-ring-card">
+                <div class="ring-left">
+                  <div class="circular-progress-wrap">
+                    <svg class="ring-svg" width="70" height="70" viewBox="0 0 36 36">
+                      <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                      <path class="circle-val" stroke-dasharray="94, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                    </svg>
+                    <div class="ring-center-text">94%</div>
+                  </div>
+                </div>
+                <div class="ring-right">
+                  <h4>Hygiene Goal: Excellent</h4>
+                  <p>6/7 sanitization routines logged today. Streak: <strong>14 Days</strong></p>
+                  <button class="mob-btn-secondary" id="mob-btn-goto-timer">Start Wash Timer</button>
+                </div>
+              </div>
+
+              <!-- Live Vitals Mini Cards -->
+              <div class="mob-vitals-row">
+                <div class="mob-vital-chip">
+                  <div class="chip-top">
+                    <span class="chip-label">Pulse Rate</span>
+                    <span class="chip-icon heart-pulse">❤️</span>
+                  </div>
+                  <div class="chip-val"><strong id="mob-val-hr">74</strong> <small>BPM</small></div>
+                  <div class="chip-indicator ok">Normal</div>
+                </div>
+
+                <div class="mob-vital-chip">
+                  <div class="chip-top">
+                    <span class="chip-label">SpO2 Oxygen</span>
+                    <span class="chip-icon">🫁</span>
+                  </div>
+                  <div class="chip-val"><strong id="mob-val-spo2">98</strong> <small>%</small></div>
+                  <div class="chip-indicator ok">Optimal</div>
+                </div>
+              </div>
+
+              <div class="mob-vitals-row">
+                <div class="mob-vital-chip">
+                  <div class="chip-top">
+                    <span class="chip-label">Body Temp</span>
+                    <span class="chip-icon">🌡️</span>
+                  </div>
+                  <div class="chip-val"><strong id="mob-val-temp">36.8</strong> <small>°C</small></div>
+                  <div class="chip-indicator ok">Afebrile</div>
+                </div>
+
+                <div class="mob-vital-chip">
+                  <div class="chip-top">
+                    <span class="chip-label">Blood Press.</span>
+                    <span class="chip-icon">🩸</span>
+                  </div>
+                  <div class="chip-val"><strong id="mob-val-bp">120/80</strong></div>
+                  <div class="chip-indicator ok">Standard</div>
+                </div>
+              </div>
+
+              <!-- Quick Action Grid -->
+              <div class="mob-section-title">Essential Quick Actions</div>
+              <div class="mob-quick-actions-grid">
+                <button class="mob-action-tile" id="mob-quick-wash">
+                  <div class="tile-icon-bubble green">🧼</div>
+                  <span>Log Sanitizer</span>
+                </button>
+                <button class="mob-action-tile" id="mob-quick-sync">
+                  <div class="tile-icon-bubble blue">📡</div>
+                  <span>Sync Sensors</span>
+                </button>
+                <button class="mob-action-tile" id="mob-quick-doctor">
+                  <div class="tile-icon-bubble purple">🩺</div>
+                  <span>Doctor Chat</span>
+                </button>
+                <button class="mob-action-tile" id="mob-quick-meds">
+                  <div class="tile-icon-bubble amber">💊</div>
+                  <span>Meds Log</span>
+                </button>
+              </div>
+
+              <!-- Mobile SOS Danger Banner -->
+              <div class="mob-emergency-card">
+                <div>
+                  <h4>Emergency SOS Dispatch</h4>
+                  <p>Instantly shares GPS & biometrics with Ward & family.</p>
+                </div>
+                <button class="mob-sos-btn" id="mob-btn-sos">SOS</button>
+              </div>
+            </div>
+
+            <!-- TAB 2: HYGIENE & WHO HANDWASH TIMER -->
+            <div class="mobile-tab-content" id="tab-mob-hygiene">
+              <div class="mob-subpage-header">
+                <h3>Smart Hand Hygiene</h3>
+                <p>WHO Certified 20-Second Technique</p>
+              </div>
+
+              <div class="wash-timer-card">
+                <div class="timer-countdown-circle">
+                  <span id="wash-timer-digits">20</span>
+                  <small>SECONDS</small>
+                </div>
+                
+                <div class="wash-step-guidance" id="wash-step-guidance">
+                  <div class="step-num-pill" id="wash-step-badge">Step 1 of 6</div>
+                  <div class="step-instruction-title" id="wash-step-title">Rub hands palm to palm</div>
+                  <p class="step-instruction-desc" id="wash-step-desc">Create lather with warm water and disinfectant soap across entire hand surfaces.</p>
+                </div>
+
+                <div class="wash-action-buttons">
+                  <button class="btn-wash-primary" id="btn-start-wash-timer">Start 20s Wash</button>
+                  <button class="btn-wash-reset" id="btn-reset-wash-timer">Reset</button>
+                </div>
+              </div>
+
+              <div class="daily-hygiene-checklist">
+                <h4>Daily Hygiene Tasks</h4>
+                <label class="check-item">
+                  <input type="checkbox" checked id="chk-task-1">
+                  <span>Morning oral hygiene & sanitization</span>
+                </label>
+                <label class="check-item">
+                  <input type="checkbox" checked id="chk-task-2">
+                  <span>Pre-meal hand disinfection (3x)</span>
+                </label>
+                <label class="check-item">
+                  <input type="checkbox" checked id="chk-task-3">
+                  <span>Sensor contact skin wipe with alcohol pad</span>
+                </label>
+                <label class="check-item">
+                  <input type="checkbox" id="chk-task-4">
+                  <span>Evening wound dressing sterile check</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- TAB 3: BIOMEDICAL IOT SENSORS -->
+            <div class="mobile-tab-content" id="tab-mob-sensors">
+              <div class="mob-subpage-header">
+                <h3>Biomedical Sensors</h3>
+                <p>BLE Telemetry & IoT Pairings</p>
+              </div>
+
+              <div class="sensor-device-list">
+                <!-- Device 1 -->
+                <div class="device-item-card connected">
+                  <div class="dev-icon-wrap">💓</div>
+                  <div class="dev-details">
+                    <div class="dev-name">BioPatch 3-Lead ECG</div>
+                    <div class="dev-specs">Model: BP-400 • Battery: <strong>88%</strong></div>
+                  </div>
+                  <button class="btn-dev-toggle active" data-dev="ecg">Paired</button>
+                </div>
+
+                <!-- Device 2 -->
+                <div class="device-item-card connected">
+                  <div class="dev-icon-wrap">🩸</div>
+                  <div class="dev-details">
+                    <div class="dev-name">PulseGuard Oximeter v2</div>
+                    <div class="dev-specs">SpO2 + Pulse • Battery: <strong>92%</strong></div>
+                  </div>
+                  <button class="btn-dev-toggle active" data-dev="spo2">Paired</button>
+                </div>
+
+                <!-- Device 3 -->
+                <div class="device-item-card connected">
+                  <div class="dev-icon-wrap">🌡️</div>
+                  <div class="dev-details">
+                    <div class="dev-name">ThermoSense Infrared</div>
+                    <div class="dev-specs">Core Body Temp • Battery: <strong>76%</strong></div>
+                  </div>
+                  <button class="btn-dev-toggle active" data-dev="temp">Paired</button>
+                </div>
+
+                <!-- Device 4 -->
+                <div class="device-item-card">
+                  <div class="dev-icon-wrap">🧼</div>
+                  <div class="dev-details">
+                    <div class="dev-name">SmartWash Dispenser Beacon</div>
+                    <div class="dev-specs">Proximity RFID • Ward 4B</div>
+                  </div>
+                  <button class="btn-dev-toggle" data-dev="dispenser">Connect</button>
+                </div>
+              </div>
+
+              <button class="mob-btn-scan-ble" id="btn-scan-ble">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Scan for Nearby Medical BLE Beacons
+              </button>
+            </div>
+
+            <!-- TAB 4: TELEHEALTH CONSULT -->
+            <div class="mobile-tab-content" id="tab-mob-consult">
+              <div class="mob-subpage-header">
+                <h3>Doctor Consultation</h3>
+                <p>Instant Telemedicine & Records</p>
+              </div>
+
+              <div class="doctor-badge-card">
+                <div class="doc-pic">EV</div>
+                <div class="doc-meta">
+                  <h4>Dr. Elena Vance</h4>
+                  <p>Cardiologist & Biomedical Specialist</p>
+                  <span class="doc-available">● Available Now</span>
+                </div>
+              </div>
+
+              <div class="consult-actions-col">
+                <button class="btn-start-call" id="btn-mob-telecall">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  Start Encrypted Video Consult
+                </button>
+                <button class="btn-chat-doctor" id="btn-mob-chat">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  Message Clinical Team
+                </button>
+              </div>
+
+              <div class="recent-prescription-card">
+                <h4>Active Prescriptions</h4>
+                <div class="rx-item">
+                  <strong>Metoprolol Tartrate 25mg</strong>
+                  <span>1 tablet daily with morning meal</span>
+                </div>
+                <div class="rx-item">
+                  <strong>Chlorhexidine Topical Rinse</strong>
+                  <span>Twice daily sterile skin wipe</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Mobile App Bottom Navigation Bar -->
+          <nav class="mobile-bottom-nav">
+            <button class="mob-nav-btn active" data-tab="tab-mob-home">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <span>Vitals</span>
+            </button>
+            <button class="mob-nav-btn" data-tab="tab-mob-hygiene">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+              <span>Hygiene</span>
+            </button>
+            <button class="mob-nav-btn" data-tab="tab-mob-sensors">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/></svg>
+              <span>Sensors</span>
+            </button>
+            <button class="mob-nav-btn" data-tab="tab-mob-consult">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Doctor</span>
+            </button>
+          </nav>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SOS Emergency Modal Window -->
+  <div class="modal-backdrop" id="modal-sos">
+    <div class="modal-box modal-sos-content">
+      <div class="sos-icon-danger">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#EF4444" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <h2>CRITICAL EMERGENCY ALERT TRIGGERED</h2>
+      <p class="sos-subtext">Immediate notification dispatched to Clinical Ward 4, Crash Team, and Emergency Contacts.</p>
+      
+      <div class="sos-telemetry-snapshot">
+        <div class="snap-item">Heart Rate: <strong id="sos-snap-hr">74 BPM</strong></div>
+        <div class="snap-item">SpO2: <strong id="sos-snap-spo2">98%</strong></div>
+        <div class="snap-item">GPS Pin: <strong>Ward 4B, Room 12-B</strong></div>
+        <div class="snap-item">Time: <strong id="sos-snap-time">--:--:--</strong></div>
+      </div>
+
+      <div class="sos-actions">
+        <button id="btn-cancel-sos" class="btn-sos-cancel">Disarm / Cancel False Alarm</button>
+        <button id="btn-confirm-sos" class="btn-sos-confirm">Confirm Dispatch to ER (0:09)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
