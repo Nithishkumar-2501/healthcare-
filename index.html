@@ -752,56 +752,56 @@
                 <table class="data-table selectable-rows" id="patient-queue-table">
                   <thead>
                     <tr>
-                      <th>Patient ID</th>
-                      <th>Name & Age</th>
-                      <th>Bed</th>
-                      <th>Primary Condition</th>
-                      <th>Current Vitals</th>
-                      <th>Hygiene Index</th>
-                      <th>Triage Status</th>
-                      <th>Action</th>
+                      <th style="width: 80px;">Patient ID</th>
+                      <th style="min-width: 170px;">Name & Age</th>
+                      <th style="min-width: 140px;">Bed Location</th>
+                      <th style="min-width: 190px;">Primary Condition</th>
+                      <th style="min-width: 180px;">Current Vitals</th>
+                      <th style="min-width: 140px;">Hygiene Index</th>
+                      <th style="min-width: 130px;">Triage Status</th>
+                      <th style="min-width: 110px; text-align: center;">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr class="patient-row selected" data-pid="P-104">
                       <td><strong class="pid-tag">P-104</strong></td>
-                      <td><strong>Marcus Reynolds</strong> (58 M)</td>
+                      <td><div class="patient-name-wrap"><strong>Marcus Reynolds</strong> <span class="patient-age">(58 M)</span></div></td>
                       <td><span class="bed-pill">Ward 4B - Bed 12</span></td>
-                      <td>Post-Op Cardiovascular</td>
+                      <td><span class="condition-text">Post-Op Cardiovascular</span></td>
                       <td><span class="v-pill ok" id="tbl-vitals-p104">74 BPM • 98% SpO2</span></td>
                       <td><span class="h-pill ok">94% (Grade A)</span></td>
                       <td><span class="vital-status-pill normal">Monitored</span></td>
-                      <td><button class="btn-micro-cyan btn-switch-patient" data-pid="P-104">Active Feed</button></td>
+                      <td style="text-align: center;"><button class="btn-micro-cyan btn-switch-patient" data-pid="P-104">Active Feed</button></td>
                     </tr>
                     <tr class="patient-row" data-pid="P-105">
                       <td><strong class="pid-tag">P-105</strong></td>
-                      <td><strong>Sarah Jenkins</strong> (42 F)</td>
+                      <td><div class="patient-name-wrap"><strong>Sarah Jenkins</strong> <span class="patient-age">(42 F)</span></div></td>
                       <td><span class="bed-pill">Ward 4B - Bed 13</span></td>
-                      <td>Post-C-Section Wound Care</td>
+                      <td><span class="condition-text">Post-C-Section Wound Care</span></td>
                       <td><span class="v-pill ok">78 BPM • 99% SpO2</span></td>
                       <td><span class="h-pill ok">96% (Grade A)</span></td>
                       <td><span class="vital-status-pill normal">Stable</span></td>
-                      <td><button class="btn-micro-cyan btn-switch-patient" data-pid="P-105">Switch Feed</button></td>
+                      <td style="text-align: center;"><button class="btn-micro-cyan btn-switch-patient" data-pid="P-105">Switch Feed</button></td>
                     </tr>
                     <tr class="patient-row" data-pid="P-106">
                       <td><strong class="pid-tag">P-106</strong></td>
-                      <td><strong>David Chen</strong> (67 M)</td>
+                      <td><div class="patient-name-wrap"><strong>David Chen</strong> <span class="patient-age">(67 M)</span></div></td>
                       <td><span class="bed-pill">Ward 4B - Bed 14</span></td>
-                      <td>Acute Respiratory Infection</td>
+                      <td><span class="condition-text">Acute Respiratory Infection</span></td>
                       <td><span class="v-pill warn">104 BPM • 93% SpO2</span></td>
                       <td><span class="h-pill warn">81% (Grade B)</span></td>
                       <td><span class="vital-status-pill danger">Critical / Iso</span></td>
-                      <td><button class="btn-micro-cyan btn-switch-patient" data-pid="P-106">Switch Feed</button></td>
+                      <td style="text-align: center;"><button class="btn-micro-cyan btn-switch-patient" data-pid="P-106">Switch Feed</button></td>
                     </tr>
                     <tr class="patient-row" data-pid="P-107">
                       <td><strong class="pid-tag">P-107</strong></td>
-                      <td><strong>Anita Roy</strong> (34 F)</td>
+                      <td><div class="patient-name-wrap"><strong>Anita Roy</strong> <span class="patient-age">(34 F)</span></div></td>
                       <td><span class="bed-pill">Ward 4B - Bed 15</span></td>
-                      <td>Sepsis Prevention Protocol</td>
+                      <td><span class="condition-text">Sepsis Prevention Protocol</span></td>
                       <td><span class="v-pill ok">82 BPM • 97% SpO2</span></td>
                       <td><span class="h-pill ok">91% (Grade A)</span></td>
                       <td><span class="vital-status-pill normal">Observing</span></td>
-                      <td><button class="btn-micro-cyan btn-switch-patient" data-pid="P-107">Switch Feed</button></td>
+                      <td style="text-align: center;"><button class="btn-micro-cyan btn-switch-patient" data-pid="P-107">Switch Feed</button></td>
                     </tr>
                   </tbody>
                 </table>
@@ -824,27 +824,29 @@
                   </div>
                 </div>
 
-                <div class="emr-section">
-                  <h5>Active Medications & Hygiene Regimen</h5>
-                  <div class="emr-rx-list">
-                    <div class="emr-rx-chip">💊 Metoprolol 25mg PO Daily (08:00)</div>
-                    <div class="emr-rx-chip">💊 Aspirin 81mg PO Daily (12:00)</div>
-                    <div class="emr-rx-chip">🧼 Chlorhexidine 2% Skin Prep Q12H</div>
+                <div class="emr-details-grid">
+                  <div class="emr-section">
+                    <h5>Active Medications & Hygiene Regimen</h5>
+                    <div class="emr-rx-list">
+                      <div class="emr-rx-chip">💊 Metoprolol 25mg PO Daily (08:00)</div>
+                      <div class="emr-rx-chip">💊 Aspirin 81mg PO Daily (12:00)</div>
+                      <div class="emr-rx-chip">🧼 Chlorhexidine 2% Skin Prep Q12H</div>
+                    </div>
                   </div>
-                </div>
 
-                <div class="emr-section">
-                  <h5>Known Allergies & Clinical Flags</h5>
-                  <div class="emr-flags">
-                    <span class="flag-pill red">Penicillin (Anaphylaxis)</span>
-                    <span class="flag-pill amber">Latex Sensitivity</span>
-                    <span class="flag-pill blue">Fall Risk Assessment: Low</span>
+                  <div class="emr-section">
+                    <h5>Known Allergies & Clinical Flags</h5>
+                    <div class="emr-flags">
+                      <span class="flag-pill red">Penicillin (Anaphylaxis)</span>
+                      <span class="flag-pill amber">Latex Sensitivity</span>
+                      <span class="flag-pill blue">Fall Risk Assessment: Low</span>
+                    </div>
                   </div>
                 </div>
 
                 <div class="emr-section">
                   <h5>Physician Clinical Notes</h5>
-                  <textarea class="emr-notes-textarea" id="emr-doctor-notes" rows="4">Patient is recovering well post-coronary intervention. Continuous ECG Lead-II telemetry demonstrates normal sinus pattern. Hand hygiene logs verify 100% staff compliance prior to wound contact. Continue current protocol.</textarea>
+                  <textarea class="emr-notes-textarea" id="emr-doctor-notes" rows="3">Patient is recovering well post-coronary intervention. Continuous ECG Lead-II telemetry demonstrates normal sinus pattern. Hand hygiene logs verify 100% staff compliance prior to wound contact. Continue current protocol.</textarea>
                   <button id="btn-save-emr-notes" class="btn-action-success" style="margin-top: 8px;">Save Physician Notes</button>
                 </div>
               </div>
