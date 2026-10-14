@@ -118,6 +118,26 @@ function initECGCanvas() {
     });
   }
 
+  const btnSpeed = document.getElementById('btn-ecg-speed');
+  if (btnSpeed) {
+    const speeds = [
+      { label: '25 mm/s', rate: 2.2 },
+      { label: '50 mm/s', rate: 4.4 },
+      { label: '12.5 mm/s', rate: 1.1 }
+    ];
+    let speedIdx = 0;
+    btnSpeed.addEventListener('click', () => {
+      speedIdx = (speedIdx + 1) % speeds.length;
+      state.ecg.sweepSpeed = speeds[speedIdx].rate;
+      btnSpeed.textContent = speeds[speedIdx].label;
+      const rateLabel = document.querySelector('.ecg-meta-rate');
+      if (rateLabel) {
+        rateLabel.textContent = `Sweep: ${speeds[speedIdx].label} • Gain: 10 mm/mV • Lead II (Biopotential Patch)`;
+      }
+      showToast(`ECG Sweep Speed Adjusted to ${speeds[speedIdx].label}`);
+    });
+  }
+
   // Generate synthetic Lead-II P-QRS-T complex
   function getECGVoltage(sample, isTachycardia) {
     const period = isTachycardia ? 45 : 75; // Shorter period = higher HR
@@ -246,6 +266,7 @@ function initVitalsSimulation() {
   }
 }
 
+function updateVitalsUI() {
   // Web Dashboard elements (Segment 1: Telemetry)
   const webHR = document.getElementById('web-val-hr');
   const webSpO2 = document.getElementById('web-val-spo2');
@@ -521,6 +542,10 @@ function initSOSModal() {
   const btnMobSOS = document.getElementById('mob-btn-sos');
   const btnCancel = document.getElementById('btn-cancel-sos');
   const btnConfirm = document.getElementById('btn-confirm-sos');
+  const countEl = document.getElementById('sos-countdown');
+
+  let countdownSeconds = 10;
+  let countdownInterval = null;
 
   function openSOS() {
     if (!modal) return;
@@ -534,28 +559,41 @@ function initSOSModal() {
     if (snapHR) snapHR.textContent = `${state.vitals.heartRate} BPM`;
     if (snapSpO2) snapSpO2.textContent = `${state.vitals.spo2}%`;
     if (snapTime) snapTime.textContent = new Date().toLocaleTimeString();
+
+    // Start 10-second auto-dispatch countdown
+    countdownSeconds = 10;
+    if (countEl) countEl.textContent = '10';
+
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+      countdownSeconds--;
+      if (countEl) countEl.textContent = countdownSeconds.toString();
+      if (countdownSeconds <= 0) {
+        clearInterval(countdownInterval);
+        closeSOS();
+        showToast('🚨 Critical SOS Emergency Dispatched to Hospital ER & Attending Cardiologist!');
+      }
+    }, 1000);
   }
 
   function closeSOS() {
+    clearInterval(countdownInterval);
     modal?.classList.remove('open');
   }
 
   btnGlobalSOS?.addEventListener('click', openSOS);
   btnMobSOS?.addEventListener('click', openSOS);
+
   btnCancel?.addEventListener('click', () => {
     closeSOS();
-    showToast('SOS False Alarm Disarmed');
+    showToast('✅ SOS False Alarm Disarmed Successfully');
   });
 
   btnConfirm?.addEventListener('click', () => {
     closeSOS();
-    showToast('🚨 SOS Dispatched to ER & Attending Cardiologist!');
+    showToast('🚨 SOS Emergency Immediately Dispatched to ER & Crash Team!');
   });
 }
-
-// ===================================================================
-// HARDWARE SENSORS & GENERAL CONTROLS
-// ===================================================================
 
 // ===================================================================
 // DEDICATED APPLICATION SEGMENT CONTROLLERS (Segments 1 - 5)
@@ -567,6 +605,7 @@ function initHardwareControls() {
   initIoTSegment();
   initEMRSegment();
   initAISegment();
+  initTelehealthModals();
 }
 
 // Segment Routing Manager
@@ -654,13 +693,16 @@ function initHygieneSegment() {
           st3.className = 'disp-status ok';
         }
       }
-      showToast(`Station #${id} Sanitizer Fluid Refilled`);
+      showToast(`Station #${id} Sanitizer Fluid Refilled (1000 ml)`);
     });
   });
 
   if (btnUVC) {
     btnUVC.addEventListener('click', () => {
       showToast('⚡ Initiating Automated Autonomous UV-C Corridor Sterilization Cycle...');
+      setTimeout(() => {
+        showToast('Autonomous UV-C Robot Active: Ward 4 Corridor Sterilization in Progress');
+      }, 1200);
     });
   }
 }
@@ -677,7 +719,8 @@ function initIoTSegment() {
     const tags = [
       { tag: 'ecg', name: '[ECG]', text: `LEAD_II: 0x${Math.floor(Math.random()*255).toString(16).toUpperCase()} | HR: ${state.vitals.heartRate} BPM | FILT: 50Hz NOTCH | CRC: OK` },
       { tag: 'spo2', name: '[SPO2]', text: `MAX30102: RATIO_R: 0.${Math.floor(Math.random()*20 + 75)} | SAT: ${state.vitals.spo2}% | PERF_IDX: 4.8%` },
-      { tag: 'temp', name: '[TEMP]', text: `MLX90614: CORE: ${state.vitals.temp} C | DIE_TEMP: 22.4 C | ACCURACY: ±0.1 C` }
+      { tag: 'temp', name: '[TEMP]', text: `MLX90614: CORE: ${state.vitals.temp} C | DIE_TEMP: 22.4 C | ACCURACY: ±0.1 C` },
+      { tag: 'disp', name: '[DISP]', text: `RFID_DOORWAY: WARD_4B | RSSI: -44dBm | COMPLIANCE: 100%` }
     ];
     const picked = tags[Math.floor(Math.random() * tags.length)];
     const line = document.createElement('div');
@@ -714,9 +757,53 @@ function initIoTSegment() {
     });
   }
 
+  // Interactive Hardware Control Buttons
+  document.querySelectorAll('.btn-iot-action').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const hw = btn.getAttribute('data-hw');
+
+      if (hw === 'bp') {
+        btn.textContent = 'Inflating 150 mmHg...';
+        btn.style.opacity = '0.7';
+        showToast('Auto-cuff inflating to 150 mmHg...');
+
+        setTimeout(() => {
+          btn.textContent = 'Measuring MAP...';
+          setTimeout(() => {
+            btn.textContent = 'Start NIBP Cycle';
+            btn.style.opacity = '1';
+            state.vitals.bpSys = 120;
+            state.vitals.bpDia = 80;
+            updateVitalsUI();
+            showToast('🩸 NIBP Cycle Complete: 120/80 mmHg (MAP: 93)');
+          }, 1500);
+        }, 1500);
+        return;
+      }
+
+      const isActive = btn.classList.contains('active');
+      if (isActive) {
+        btn.classList.remove('active');
+        btn.textContent = 'Standby / Connect';
+        btn.style.background = 'rgba(255,255,255,0.06)';
+        btn.style.color = 'var(--text-muted)';
+        btn.closest('.iot-card')?.classList.remove('connected');
+        showToast(`Hardware Sensor [${hw.toUpperCase()}] Placed in Standby`);
+      } else {
+        btn.classList.add('active');
+        btn.textContent = 'Paired & Active';
+        btn.style.background = 'rgba(16, 185, 129, 0.15)';
+        btn.style.color = '#34d399';
+        btn.closest('.iot-card')?.classList.add('connected');
+        showToast(`Hardware Sensor [${hw.toUpperCase()}] Connected & Streaming`);
+      }
+    });
+  });
+
   document.querySelectorAll('.btn-iot-calibrate').forEach(b => {
     b.addEventListener('click', () => {
-      showToast('Calibrating hardware zero-point & baseline offset... Done (Offset: 0.00)');
+      const hw = b.getAttribute('data-hw') || 'Sensor';
+      showToast(`Calibrating [${hw.toUpperCase()}] baseline offset... Done (Offset: 0.00)`);
     });
   });
 }
@@ -756,12 +843,64 @@ function initEMRSegment() {
     });
   });
 
-  // Patient EMR Record Selection
+  // Comprehensive Patients Database
   const patientsDB = {
-    'P-104': { name: 'Marcus Reynolds (58 M)', bed: 'Ward 4B - Bed 12', diag: 'Post-Op Cardiovascular Monitoring • Hypertensive', notes: 'Patient is recovering well post-coronary intervention. Continuous ECG Lead-II telemetry demonstrates normal sinus pattern.' },
-    'P-105': { name: 'Sarah Jenkins (42 F)', bed: 'Ward 4B - Bed 13', diag: 'Post-C-Section Wound Care & Healing Protocol', notes: 'Incision site dry and intact. Sterile dressing change logged with full hygiene compliance. Afebrile.' },
-    'P-106': { name: 'David Chen (67 M)', bed: 'Ward 4B - Bed 14', diag: 'Acute Respiratory Viral Infection • Isolation Unit', notes: 'High flow oxygen active. Strict negative pressure barrier precautions in place. SpO2 borderline.' },
-    'P-107': { name: 'Anita Roy (34 F)', bed: 'Ward 4B - Bed 15', diag: 'Post-Trauma Sepsis Surveillance Protocol', notes: 'qSOFA score monitored continuous Q15M. Temperature steady at 37.1 C.' }
+    'P-104': { 
+      name: 'Marcus Reynolds', 
+      age: 58, 
+      gender: 'M',
+      bed: 'Ward 4B - Bed 12', 
+      diag: 'Post-Op Cardiovascular Monitoring • Hypertensive', 
+      notes: 'Patient is recovering well post-coronary intervention. Continuous ECG Lead-II telemetry demonstrates normal sinus pattern. Hand hygiene logs verify 100% staff compliance.',
+      hr: 74, 
+      spo2: 98, 
+      temp: 36.8, 
+      bpSys: 120, 
+      bpDia: 80, 
+      isAnomaly: false 
+    },
+    'P-105': { 
+      name: 'Sarah Jenkins', 
+      age: 42, 
+      gender: 'F',
+      bed: 'Ward 4B - Bed 13', 
+      diag: 'Post-C-Section Wound Care & Healing Protocol', 
+      notes: 'Incision site dry and intact. Sterile dressing change logged with full hygiene compliance. Afebrile and alert.',
+      hr: 78, 
+      spo2: 99, 
+      temp: 36.6, 
+      bpSys: 118, 
+      bpDia: 76, 
+      isAnomaly: false 
+    },
+    'P-106': { 
+      name: 'David Chen', 
+      age: 67, 
+      gender: 'M',
+      bed: 'Ward 4B - Bed 14', 
+      diag: 'Acute Respiratory Viral Infection • Isolation Unit', 
+      notes: 'High-flow oxygen cannula active. Strict negative pressure barrier precautions in place. Elevated heart rate and fever spike detected.',
+      hr: 104, 
+      spo2: 93, 
+      temp: 38.4, 
+      bpSys: 138, 
+      bpDia: 88, 
+      isAnomaly: true 
+    },
+    'P-107': { 
+      name: 'Anita Roy', 
+      age: 34, 
+      gender: 'F',
+      bed: 'Ward 4B - Bed 15', 
+      diag: 'Post-Trauma Sepsis Surveillance Protocol', 
+      notes: 'qSOFA score monitored continuous Q15M. Temperature steady at 37.1 C. Prophylactic antibiotic regimen active.',
+      hr: 82, 
+      spo2: 97, 
+      temp: 37.1, 
+      bpSys: 124, 
+      bpDia: 82, 
+      isAnomaly: false 
+    }
   };
 
   document.querySelectorAll('.btn-switch-patient, .patient-row').forEach(elem => {
@@ -773,17 +912,37 @@ function initEMRSegment() {
       document.querySelector(`.patient-row[data-pid="${pid}"]`)?.classList.add('selected');
 
       const data = patientsDB[pid];
+
+      // Update EMR Drawer
       const nameEl = document.getElementById('emr-patient-fullname');
       const diagEl = document.getElementById('emr-patient-diagnosis');
       const notesEl = document.getElementById('emr-doctor-notes');
       const pidBadge = document.getElementById('emr-selected-pid');
 
-      if (nameEl) nameEl.textContent = data.name;
+      if (nameEl) nameEl.textContent = `${data.name} (${data.age} ${data.gender})`;
       if (diagEl) diagEl.textContent = `Bed: ${data.bed} • Diagnosis: ${data.diag}`;
       if (notesEl) notesEl.value = data.notes;
       if (pidBadge) pidBadge.textContent = `PATIENT #${pid}`;
 
-      showToast(`Loaded Clinical EMR for Patient #${pid}: ${data.name.split(' ')[0]}`);
+      // Update Segment 1 Patient Header
+      const livePName = document.querySelector('.patient-monitor-header .p-name');
+      const livePCond = document.querySelector('.patient-monitor-header .p-conditions');
+      const liveAvatar = document.querySelector('.patient-monitor-header .patient-avatar');
+
+      if (livePName) livePName.innerHTML = `${data.name} (Age: ${data.age}) <span class="badge-status ${data.isAnomaly ? 'danger' : 'normal'}">${data.bed}</span>`;
+      if (livePCond) livePCond.textContent = `Conditions: ${data.diag}`;
+      if (liveAvatar) liveAvatar.textContent = pid;
+
+      // Update Global State Vitals to selected patient
+      state.vitals.heartRate = data.hr;
+      state.vitals.spo2 = data.spo2;
+      state.vitals.temp = data.temp;
+      state.vitals.bpSys = data.bpSys;
+      state.vitals.bpDia = data.bpDia;
+      state.vitals.isAnomaly = data.isAnomaly;
+
+      updateVitalsUI();
+      showToast(`Switched Active Monitoring Feed to #${pid} (${data.name})`);
     });
   });
 
@@ -802,27 +961,44 @@ function initAISegment() {
   const chkTachy = document.getElementById('chk-sym-tachy');
   const chkDyspnea = document.getElementById('chk-sym-dyspnea');
   const chkHypo = document.getElementById('chk-sym-hypotension');
+  const chkWound = document.getElementById('chk-sym-wound');
+  const chkHygiene = document.getElementById('chk-sym-hygiene-lapse');
 
   function calculateInteractiveNEWS2() {
-    let score = 2; // base
+    let score = 2; // baseline
     if (chkFever?.checked) score += 3;
     if (chkTachy?.checked) score += 2;
     if (chkDyspnea?.checked) score += 3;
     if (chkHypo?.checked) score += 2;
+    if (chkWound?.checked) score += 2;
+    if (chkHygiene?.checked) score += 1;
 
     const news2Val = document.getElementById('news2-score-val');
     const news2Pill = document.getElementById('news2-pill');
     const news2Bar = document.getElementById('news2-bar');
+    const sepsisVal = document.getElementById('sepsis-score-val');
+    const sepsisPill = document.getElementById('sepsis-pill');
+    const sepsisBar = document.getElementById('sepsis-bar');
 
     if (news2Val) news2Val.innerHTML = `${score} <small>/ 20</small>`;
+
     if (score >= 7) {
       if (news2Pill) {
-        news2Pill.textContent = `Score: ${score} (Critical Risk)`;
+        news2Pill.textContent = `Score: ${score} (Critical Alert)`;
         news2Pill.className = 'vital-status-pill danger';
       }
       if (news2Bar) {
         news2Bar.style.width = `${Math.min(100, score * 10)}%`;
         news2Bar.className = 'model-fill red';
+      }
+      if (sepsisVal) sepsisVal.innerHTML = `2 <small>/ 3</small>`;
+      if (sepsisPill) {
+        sepsisPill.textContent = 'Positive qSOFA (2/3)';
+        sepsisPill.className = 'vital-status-pill danger';
+      }
+      if (sepsisBar) {
+        sepsisBar.style.width = '66%';
+        sepsisBar.className = 'model-fill red';
       }
     } else if (score >= 5) {
       if (news2Pill) {
@@ -833,6 +1009,15 @@ function initAISegment() {
         news2Bar.style.width = '50%';
         news2Bar.className = 'model-fill red';
       }
+      if (sepsisVal) sepsisVal.innerHTML = `1 <small>/ 3</small>`;
+      if (sepsisPill) {
+        sepsisPill.textContent = 'Surveillance (1/3)';
+        sepsisPill.className = 'vital-status-pill normal';
+      }
+      if (sepsisBar) {
+        sepsisBar.style.width = '33%';
+        sepsisBar.className = 'model-fill green';
+      }
     } else {
       if (news2Pill) {
         news2Pill.textContent = `Score: ${score} (Low Risk)`;
@@ -842,10 +1027,19 @@ function initAISegment() {
         news2Bar.style.width = '20%';
         news2Bar.className = 'model-fill green';
       }
+      if (sepsisVal) sepsisVal.innerHTML = `0 <small>/ 3</small>`;
+      if (sepsisPill) {
+        sepsisPill.textContent = 'Negative (0/3)';
+        sepsisPill.className = 'vital-status-pill normal';
+      }
+      if (sepsisBar) {
+        sepsisBar.style.width = '0%';
+        sepsisBar.className = 'model-fill green';
+      }
     }
   }
 
-  [chkFever, chkTachy, chkDyspnea, chkHypo].forEach(chk => {
+  [chkFever, chkTachy, chkDyspnea, chkHypo, chkWound, chkHygiene].forEach(chk => {
     chk?.addEventListener('change', calculateInteractiveNEWS2);
   });
 
@@ -858,8 +1052,8 @@ function initAISegment() {
       const rec = document.getElementById('ai-rec-box');
 
       setTimeout(() => {
-        if (chkFever?.checked || chkTachy?.checked) {
-          if (narrative) narrative.textContent = 'NEURAL ANALYSIS: Multimodal telemetry inputs detect elevated inflammatory biomarkers combined with rate instability. High probability of systemic bacteremia or post-operative wound contamination.';
+        if (chkFever?.checked || chkTachy?.checked || chkWound?.checked) {
+          if (narrative) narrative.textContent = 'NEURAL ANALYSIS: Multimodal telemetry inputs detect elevated inflammatory biomarkers combined with rate instability. High probability of systemic bacteremia or post-operative surgical site contamination.';
           if (rec) rec.innerHTML = '<span class="rec-label" style="color: #ef4444;">Stat Intervention:</span> Draw blood cultures x2, initiate empiric broad-spectrum antibiotic protocol, continuous SpO2 & ECG Lead-II telemetry.';
         } else {
           if (narrative) narrative.textContent = 'NEURAL ANALYSIS: Continuous Lead-II analysis indicates standard sinus rhythm (Mean: 74 BPM). Pulse Oximetry reflects consistent alveolar perfusion at 98%. Hand sanitation logs recorded 7 cycles in the past 6 hours, maintaining low bacterial cross-transmission probability.';
@@ -906,22 +1100,152 @@ function initAISegment() {
       }, 600);
     });
   }
-
-  // Telehealth call buttons
-  const btnTelecall = document.getElementById('btn-mob-telecall');
-  if (btnTelecall) {
-    btnTelecall.addEventListener('click', () => {
-      showToast('📹 Initiating WebRTC Encrypted Video Consult with Dr. Elena Vance...');
-    });
-  }
-
-  const btnChat = document.getElementById('btn-mob-chat');
-  if (btnChat) {
-    btnChat.addEventListener('click', () => {
-      showToast('💬 Opening Secure Hospital Chat Channel...');
-    });
-  }
 }
+
+// ===================================================================
+// TELEHEALTH VIDEO CONSULT & CLINICAL CHAT MODALS
+// ===================================================================
+
+function initTelehealthModals() {
+  // Video Consult Modal
+  const modalVideo = document.getElementById('modal-video-call');
+  const btnStartCall = document.getElementById('btn-mob-telecall');
+  const btnCloseCall = document.getElementById('btn-close-call');
+  const btnEndCall = document.getElementById('btn-call-end');
+  const btnMute = document.getElementById('btn-call-mute');
+  const btnCam = document.getElementById('btn-call-cam');
+  const timerEl = document.getElementById('call-timer');
+
+  let callSeconds = 0;
+  let callTimerInterval = null;
+  let isMuted = false;
+  let isCamOff = false;
+
+  function openVideoCall() {
+    if (!modalVideo) return;
+    modalVideo.classList.add('open');
+    callSeconds = 0;
+    if (timerEl) timerEl.textContent = '00:00';
+
+    clearInterval(callTimerInterval);
+    callTimerInterval = setInterval(() => {
+      callSeconds++;
+      const mins = Math.floor(callSeconds / 60).toString().padStart(2, '0');
+      const secs = (callSeconds % 60).toString().padStart(2, '0');
+      if (timerEl) timerEl.textContent = `${mins}:${secs}`;
+    }, 1000);
+
+    showToast('📹 Connected with Dr. Elena Vance (Encrypted WebRTC Stream)');
+  }
+
+  function closeVideoCall() {
+    clearInterval(callTimerInterval);
+    modalVideo?.classList.remove('open');
+    showToast(`Video Consult Ended (Duration: ${callSeconds}s)`);
+  }
+
+  btnStartCall?.addEventListener('click', openVideoCall);
+  btnCloseCall?.addEventListener('click', closeVideoCall);
+  btnEndCall?.addEventListener('click', closeVideoCall);
+
+  btnMute?.addEventListener('click', () => {
+    isMuted = !isMuted;
+    btnMute.textContent = isMuted ? '🔇 Mic Muted' : '🎤 Mute Mic';
+    btnMute.classList.toggle('active-toggled', isMuted);
+    showToast(isMuted ? 'Microphone Muted' : 'Microphone Unmuted');
+  });
+
+  btnCam?.addEventListener('click', () => {
+    isCamOff = !isCamOff;
+    btnCam.textContent = isCamOff ? '📹 Camera On' : '📷 Camera Off';
+    btnCam.classList.toggle('active-toggled', isCamOff);
+    showToast(isCamOff ? 'Camera Disabled' : 'Camera Enabled');
+  });
+
+  // Clinical Team Chat Modal
+  const modalChat = document.getElementById('modal-chat');
+  const btnOpenChat = document.getElementById('btn-mob-chat');
+  const btnQuickChat = document.getElementById('mob-quick-doctor');
+  const btnCloseChat = document.getElementById('btn-close-chat');
+  const chatForm = document.getElementById('chat-form');
+  const chatInput = document.getElementById('chat-input-text');
+  const messagesContainer = document.getElementById('chat-messages-container');
+
+  function openChat() {
+    modalChat?.classList.add('open');
+    setTimeout(() => {
+      if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }, 100);
+  }
+
+  function closeChat() {
+    modalChat?.classList.remove('open');
+  }
+
+  btnOpenChat?.addEventListener('click', openChat);
+  btnQuickChat?.addEventListener('click', openChat);
+  btnCloseChat?.addEventListener('click', closeChat);
+
+  function appendChatMessage(sender, text, isDoctor = false) {
+    if (!messagesContainer) return;
+    const msg = document.createElement('div');
+    msg.className = `chat-msg ${isDoctor ? 'doc' : 'patient'}`;
+    msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
+    messagesContainer.appendChild(msg);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  chatForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = chatInput?.value?.trim();
+    if (!text) return;
+
+    appendChatMessage('You', text, false);
+    chatInput.value = '';
+
+    // Automated Doctor/Clinical Reply
+    setTimeout(() => {
+      const replies = [
+        "Received. Your Lead-II telemetry continues to display a steady normal sinus waveform.",
+        "Understood. The nursing team has been alerted to review your sterile dressing at the next check.",
+        "Thank you Marcus. Please maintain your hand hygiene routines and monitor for any sudden palpitations."
+      ];
+      const randomReply = replies[Math.floor(Math.random() * replies.length)];
+      appendChatMessage('Dr. Elena Vance', randomReply, true);
+    }, 1100);
+  });
+
+  // Quick Suggestion Chips
+  document.querySelectorAll('.chat-chip-btn').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const msg = chip.getAttribute('data-msg');
+      if (msg && chatInput) {
+        chatInput.value = msg;
+        chatForm?.dispatchEvent(new Event('submit'));
+      }
+    });
+  });
+
+  // Mobile Hygiene Task Checkbox Interactivity
+  const taskCheckboxes = document.querySelectorAll('.daily-hygiene-checklist input[type="checkbox"]');
+  taskCheckboxes.forEach(chk => {
+    chk.addEventListener('change', () => {
+      const total = taskCheckboxes.length;
+      let checkedCount = 0;
+      taskCheckboxes.forEach(c => { if (c.checked) checkedCount++; });
+
+      const pct = Math.round((checkedCount / total) * 100);
+      const ringText = document.querySelector('.ring-center-text');
+      const ringCircle = document.querySelector('.circle-val');
+
+      if (ringText) ringText.textContent = `${pct}%`;
+      if (ringCircle) ringCircle.setAttribute('stroke-dasharray', `${pct}, 100`);
+
+      showToast(`Daily Hygiene Progress: ${checkedCount}/${total} Completed (${pct}%)`);
+    });
+  });
+}
+
 
 // ===================================================================
 // SYSTEM UTILITIES (Clock & Toasts)

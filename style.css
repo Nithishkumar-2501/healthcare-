@@ -2502,3 +2502,219 @@ body.view-dual #mobile-simulator-container {
 .guideline-ref-box h4 { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; }
 .guideline-ref-box p { font-size: 0.72rem; color: var(--text-muted); line-height: 1.5; }
 
+/* -------------------------------------------------------------
+   TELEHEALTH VIDEO CONSULT & CLINICAL CHAT MODALS
+   ------------------------------------------------------------- */
+.modal-video-content, .modal-chat-content {
+  max-width: 500px;
+  text-align: left;
+  border-color: var(--primary-cyan);
+  box-shadow: 0 0 45px rgba(6, 182, 212, 0.35);
+}
+
+.video-call-header, .chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 14px;
+}
+
+.video-doc-info, .chat-doc-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.video-doc-info h4, .chat-doc-info h4 {
+  font-size: 0.95rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+.video-connected-badge {
+  font-size: 0.7rem;
+  color: #34d399;
+  font-family: var(--font-mono);
+}
+
+.chat-status-active {
+  font-size: 0.7rem;
+  color: #38bdf8;
+}
+
+.video-feed-placeholder {
+  height: 220px;
+  background: radial-gradient(circle at center, #1e293b, #090d16);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.video-pulse-wave {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  height: 50px;
+}
+
+.wave-bar {
+  width: 6px;
+  background: var(--primary-cyan);
+  border-radius: 4px;
+  animation: soundWave 1.2s infinite ease-in-out;
+}
+.wave-bar:nth-child(1) { height: 16px; animation-delay: 0.1s; }
+.wave-bar:nth-child(2) { height: 36px; animation-delay: 0.3s; }
+.wave-bar:nth-child(3) { height: 48px; animation-delay: 0.2s; }
+.wave-bar:nth-child(4) { height: 28px; animation-delay: 0.4s; }
+.wave-bar:nth-child(5) { height: 18px; animation-delay: 0.15s; }
+
+@keyframes soundWave {
+  0%, 100% { transform: scaleY(0.4); opacity: 0.5; }
+  50% { transform: scaleY(1.1); opacity: 1; }
+}
+
+.doc-overlay-title {
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.video-pip-patient {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 90px;
+  height: 65px;
+  background: #0f172a;
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+.video-call-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-call-ctrl {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-call-ctrl:hover { background: rgba(255, 255, 255, 0.15); }
+.btn-call-ctrl.active-toggled { background: rgba(245, 158, 11, 0.2); border-color: #f59e0b; color: #fbbf24; }
+.btn-call-ctrl.end { background: linear-gradient(135deg, #ef4444, #b91c1c); border: none; }
+
+/* Chat Modal Body */
+.chat-messages-container {
+  max-height: 240px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-right: 4px;
+}
+
+.chat-msg {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  max-width: 85%;
+}
+
+.chat-msg.system {
+  align-self: center;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.chat-msg.doc {
+  align-self: flex-start;
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: #e2e8f0;
+}
+.chat-msg.doc strong { color: var(--primary-cyan); }
+
+.chat-msg.patient {
+  align-self: flex-end;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #e2e8f0;
+}
+.chat-msg.patient strong { color: #34d399; }
+
+.chat-quick-suggestions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.chat-chip-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  padding: 4px 9px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.chat-chip-btn:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.chat-input-row input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+}
+.chat-input-row input:focus { outline: none; border-color: var(--primary-cyan); }
+
+.btn-chat-submit {
+  background: linear-gradient(135deg, #0284c7, #06b6d4);
+  border: none;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+

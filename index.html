@@ -1322,8 +1322,84 @@
 
       <div class="sos-actions">
         <button id="btn-cancel-sos" class="btn-sos-cancel">Disarm / Cancel False Alarm</button>
-        <button id="btn-confirm-sos" class="btn-sos-confirm">Confirm Dispatch to ER (0:09)</button>
+        <button id="btn-confirm-sos" class="btn-sos-confirm">Confirm Dispatch to ER (<span id="sos-countdown">10</span>s)</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Telehealth WebRTC Video Consult Modal -->
+  <div class="modal-backdrop" id="modal-video-call">
+    <div class="modal-box modal-video-content">
+      <div class="video-call-header">
+        <div class="video-doc-info">
+          <div class="doc-pic">EV</div>
+          <div>
+            <h4>Dr. Elena Vance, MD</h4>
+            <span class="video-connected-badge">● Encrypted WebRTC Live • <span id="call-timer">00:00</span></span>
+          </div>
+        </div>
+        <button id="btn-close-call" class="btn-micro">✕</button>
+      </div>
+
+      <div class="video-feed-placeholder">
+        <div class="video-pulse-wave">
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+        <div class="doc-overlay-title">Dr. Elena Vance • Cardiologist & Ward 4 Lead</div>
+        <div class="video-pip-patient">
+          <span>You (Marcus R.)</span>
+        </div>
+      </div>
+
+      <div class="video-call-controls">
+        <button id="btn-call-mute" class="btn-call-ctrl">🎤 Mute Mic</button>
+        <button id="btn-call-cam" class="btn-call-ctrl">📷 Camera Off</button>
+        <button id="btn-call-end" class="btn-call-ctrl end">End Call</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clinical Team Chat Modal -->
+  <div class="modal-backdrop" id="modal-chat">
+    <div class="modal-box modal-chat-content">
+      <div class="chat-header">
+        <div class="chat-doc-info">
+          <div class="avatar-ring">DR</div>
+          <div>
+            <h4>Clinical Care Team (Ward 4B)</h4>
+            <span class="chat-status-active">● Dr. Elena Vance & RN David K. Online</span>
+          </div>
+        </div>
+        <button id="btn-close-chat" class="btn-micro">✕</button>
+      </div>
+
+      <div class="chat-messages-container" id="chat-messages-container">
+        <div class="chat-msg system"><span>Encrypted clinical channel active (HIPAA / Biomedical Security Standard)</span></div>
+        <div class="chat-msg doc">
+          <strong>Dr. Elena Vance:</strong> Hello Marcus, I am monitoring your Lead-II telemetry and recent hand hygiene logs. Both look very consistent today.
+        </div>
+        <div class="chat-msg patient">
+          <strong>You:</strong> Thank you Doctor. I felt a slight flutter this morning, but normal now.
+        </div>
+        <div class="chat-msg doc">
+          <strong>Dr. Elena Vance:</strong> Your sinus rate shows steady 74 BPM. Keep your BioPatch sensor clean and stay hydrated.
+        </div>
+      </div>
+
+      <div class="chat-quick-suggestions">
+        <button type="button" class="chat-chip-btn" data-msg="Vitals snapshot sent: 74 BPM, 98% SpO2.">Send Vitals</button>
+        <button type="button" class="chat-chip-btn" data-msg="Requesting clarification on morning medication dosage.">Medication Query</button>
+        <button type="button" class="chat-chip-btn" data-msg="Hand hygiene routine completed for wound dressing.">Hygiene Logged</button>
+      </div>
+
+      <form class="chat-input-row" id="chat-form">
+        <input type="text" id="chat-input-text" placeholder="Type message to Dr. Vance or nursing staff..." required autocomplete="off">
+        <button type="submit" id="btn-chat-send" class="btn-chat-submit">Send</button>
+      </form>
     </div>
   </div>
 
