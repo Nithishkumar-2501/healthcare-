@@ -246,8 +246,7 @@ function initVitalsSimulation() {
   }
 }
 
-function updateVitalsUI() {
-  // Web Dashboard elements
+  // Web Dashboard elements (Segment 1: Telemetry)
   const webHR = document.getElementById('web-val-hr');
   const webSpO2 = document.getElementById('web-val-spo2');
   const webTemp = document.getElementById('web-val-temp');
@@ -257,13 +256,26 @@ function updateVitalsUI() {
   const ecgBpm = document.getElementById('ecg-live-bpm');
   const cardHR = document.getElementById('card-heart-rate');
   const cardSpO2 = document.getElementById('card-spo2');
-  const aiBox = document.getElementById('ai-insight-box');
+  const aiBox = document.getElementById('ai-insight-box-extended');
 
   // Mobile App elements
   const mobHR = document.getElementById('mob-val-hr');
   const mobSpO2 = document.getElementById('mob-val-spo2');
   const mobTemp = document.getElementById('mob-val-temp');
   const mobBP = document.getElementById('mob-val-bp');
+
+  // EMR Table elements
+  const tblVitals = document.getElementById('tbl-vitals-p104');
+
+  // Segment 5 AI Models
+  const news2Val = document.getElementById('news2-score-val');
+  const news2Pill = document.getElementById('news2-pill');
+  const news2Bar = document.getElementById('news2-bar');
+  const sepsisVal = document.getElementById('sepsis-score-val');
+  const sepsisPill = document.getElementById('sepsis-pill');
+  const sepsisBar = document.getElementById('sepsis-bar');
+  const arrhythmiaPill = document.getElementById('arrhythmia-pill');
+  const arrConf = document.getElementById('arrhythmia-conf-val');
 
   if (webHR) webHR.textContent = state.vitals.heartRate;
   if (webSpO2) webSpO2.textContent = state.vitals.spo2;
@@ -278,7 +290,12 @@ function updateVitalsUI() {
   if (mobTemp) mobTemp.textContent = state.vitals.temp;
   if (mobBP) mobBP.textContent = `${state.vitals.bpSys}/${state.vitals.bpDia}`;
 
-  // Anomaly Visuals
+  if (tblVitals) {
+    tblVitals.textContent = `${state.vitals.heartRate} BPM • ${state.vitals.spo2}% SpO2`;
+    tblVitals.className = state.vitals.isAnomaly ? 'v-pill warn' : 'v-pill ok';
+  }
+
+  // Anomaly Visuals Synchronization Across All Segments
   if (state.vitals.isAnomaly) {
     cardHR?.classList.add('critical-alert');
     cardSpO2?.classList.add('critical-alert');
@@ -292,17 +309,43 @@ function updateVitalsUI() {
       spo2Status.textContent = 'Mild Hypoxia';
       spo2Status.className = 'vital-status-pill danger';
     }
+
+    // Segment 5 AI Early Warning Spike
+    if (news2Val) news2Val.innerHTML = `8 <small>/ 20</small>`;
+    if (news2Pill) {
+      news2Pill.textContent = 'Score: 8 (High Risk Alert)';
+      news2Pill.className = 'vital-status-pill danger';
+    }
+    if (news2Bar) {
+      news2Bar.style.width = '70%';
+      news2Bar.className = 'model-fill red';
+    }
+    if (sepsisVal) sepsisVal.innerHTML = `2 <small>/ 3</small>`;
+    if (sepsisPill) {
+      sepsisPill.textContent = 'Positive qSOFA (2/3)';
+      sepsisPill.className = 'vital-status-pill danger';
+    }
+    if (sepsisBar) {
+      sepsisBar.style.width = '66%';
+      sepsisBar.className = 'model-fill red';
+    }
+    if (arrhythmiaPill) {
+      arrhythmiaPill.textContent = 'Sinus Tachycardia';
+      arrhythmiaPill.className = 'vital-status-pill danger';
+    }
+    if (arrConf) arrConf.innerHTML = `98.6% <small>Confidence</small>`;
+
     if (aiBox) {
       aiBox.innerHTML = `
         <div class="ai-badge-row">
           <span class="ai-badge danger" style="background: rgba(239, 68, 68, 0.2); color: #f87171;">Tachycardia Detected (138 BPM)</span>
-          <span class="ai-badge danger" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">Febrile Temp (38.6°C)</span>
+          <span class="ai-badge danger" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">Febrile Spike (38.6°C)</span>
         </div>
         <p class="ai-text" style="color: #fca5a5;">
-          CRITICAL: Sudden rate acceleration and oxygen saturation drop from 98% to 91%. Risk of septic response or post-operative arrhythmia. Immediate bedside clinical examination recommended.
+          CRITICAL: Sudden rate acceleration and oxygen saturation drop from 98% to 91%. Early Warning Score escalated to 8. Immediate bedside clinical examination recommended.
         </p>
         <div class="ai-recommendation" style="border-left-color: #ef4444;">
-          <span class="rec-label" style="color: #ef4444;">Action Required:</span> Administer IV fluids, verify ECG Lead contacts, alert on-duty cardiologist.
+          <span class="rec-label" style="color: #ef4444;">Action Required:</span> Order stat 12-lead ECG, blood cultures, titrate supplemental O2 to maintain SpO2 ≥ 94%.
         </div>
       `;
     }
@@ -319,6 +362,31 @@ function updateVitalsUI() {
       spo2Status.textContent = 'Optimal Saturation';
       spo2Status.className = 'vital-status-pill normal';
     }
+
+    // Segment 5 AI Baseline
+    if (news2Val) news2Val.innerHTML = `2 <small>/ 20</small>`;
+    if (news2Pill) {
+      news2Pill.textContent = 'Score: 2 (Low Risk)';
+      news2Pill.className = 'vital-status-pill normal';
+    }
+    if (news2Bar) {
+      news2Bar.style.width = '15%';
+      news2Bar.className = 'model-fill green';
+    }
+    if (sepsisVal) sepsisVal.innerHTML = `0 <small>/ 3</small>`;
+    if (sepsisPill) {
+      sepsisPill.textContent = 'Negative (0/3)';
+      sepsisPill.className = 'vital-status-pill normal';
+    }
+    if (sepsisBar) {
+      sepsisBar.style.width = '0%';
+      sepsisBar.className = 'model-fill green';
+    }
+    if (arrhythmiaPill) {
+      arrhythmiaPill.textContent = 'Sinus Rhythm';
+      arrhythmiaPill.className = 'vital-status-pill normal';
+    }
+    if (arrConf) arrConf.innerHTML = `99.2% <small>Confidence</small>`;
   }
 }
 
@@ -489,30 +557,320 @@ function initSOSModal() {
 // HARDWARE SENSORS & GENERAL CONTROLS
 // ===================================================================
 
-function initHardwareControls() {
-  // Web Sidebar Navigation click handlers
-  document.querySelectorAll('.sidebar-nav .nav-item').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.sidebar-nav .nav-item').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const page = btn.getAttribute('data-page');
+// ===================================================================
+// DEDICATED APPLICATION SEGMENT CONTROLLERS (Segments 1 - 5)
+// ===================================================================
 
-      if (page === 'telemetry') {
-        document.querySelector('.vital-cards-grid')?.scrollIntoView({ behavior: 'smooth' });
-      } else if (page === 'hygiene') {
-        document.querySelector('.hygiene-matrix')?.scrollIntoView({ behavior: 'smooth' });
-      } else if (page === 'devices') {
-        document.querySelector('.ecg-oscilloscope-container')?.scrollIntoView({ behavior: 'smooth' });
-      } else if (page === 'ai-triage') {
-        document.querySelector('.ai-assistant')?.scrollIntoView({ behavior: 'smooth' });
-      } else if (page === 'patients') {
-        document.querySelector('.patient-monitor-header')?.scrollIntoView({ behavior: 'smooth' });
-        showToast('Viewing Patient Record #P-104: Marcus Reynolds');
+function initHardwareControls() {
+  initWebSegmentNavigation();
+  initHygieneSegment();
+  initIoTSegment();
+  initEMRSegment();
+  initAISegment();
+}
+
+// Segment Routing Manager
+function initWebSegmentNavigation() {
+  const segmentMeta = {
+    'telemetry': { title: 'Live Telemetry & Bedside Monitoring', crumb: 'TELEMETRY' },
+    'hygiene': { title: 'Hygiene & Infection Control Center', crumb: 'HYGIENE CONTROL' },
+    'devices': { title: 'Biomedical IoT Hub & Sensors Gateway', crumb: 'IOT HARDWARE' },
+    'patients': { title: 'Patient EMR Queue & Ward Directory', crumb: 'EMR RECORDS' },
+    'ai-triage': { title: 'AI Risk Triage & Diagnostic Intelligence', crumb: 'AI TRIAGE' }
+  };
+
+  const navBtns = document.querySelectorAll('.sidebar-nav .nav-item');
+  const segments = document.querySelectorAll('.web-segment');
+  const titleText = document.getElementById('segment-title-text');
+  const crumbName = document.getElementById('segment-crumb-name');
+
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const page = btn.getAttribute('data-page');
+      
+      // Toggle Segment Views
+      segments.forEach(seg => {
+        if (seg.getAttribute('data-segment') === page) {
+          seg.classList.add('active');
+        } else {
+          seg.classList.remove('active');
+        }
+      });
+
+      // Update Header Text & Breadcrumb
+      if (segmentMeta[page]) {
+        if (titleText) titleText.textContent = segmentMeta[page].title;
+        if (crumbName) crumbName.textContent = segmentMeta[page].crumb;
       }
+
+      // If returning to telemetry, re-render oscilloscope trace
+      if (page === 'telemetry') {
+        setTimeout(resizeECGCanvas, 60);
+      }
+
+      showToast(`Navigated to Segment: ${segmentMeta[page]?.crumb || page.toUpperCase()}`);
+    });
+  });
+}
+
+// Segment 2: Hygiene & Infection Controllers
+function initHygieneSegment() {
+  const btnRefillAll = document.getElementById('btn-refill-all');
+  const btnUVC = document.getElementById('btn-trigger-uvc');
+
+  if (btnRefillAll) {
+    btnRefillAll.addEventListener('click', () => {
+      for (let i = 1; i <= 4; i++) {
+        const fill = document.getElementById(`st-fill-${i}`);
+        const lvl = document.getElementById(`st-lvl-${i}`);
+        if (fill) fill.style.width = '100%';
+        if (lvl) lvl.textContent = '100% (1000 ml)';
+      }
+      const st3 = document.getElementById('st-status-3');
+      if (st3) {
+        st3.textContent = '● Online';
+        st3.className = 'disp-status ok';
+      }
+      const kpiTotal = document.getElementById('kpi-disp-total');
+      if (kpiTotal) kpiTotal.textContent = '740';
+      showToast('🧼 All 4 Ward Dispensers Refilled to 100% (1000 ml)');
+    });
+  }
+
+  document.querySelectorAll('.btn-refill-single').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-st');
+      const fill = document.getElementById(`st-fill-${id}`);
+      const lvl = document.getElementById(`st-lvl-${id}`);
+      if (fill) fill.style.width = '100%';
+      if (lvl) lvl.textContent = '100% (1000 ml)';
+      if (id === '3') {
+        const st3 = document.getElementById('st-status-3');
+        if (st3) {
+          st3.textContent = '● Online';
+          st3.className = 'disp-status ok';
+        }
+      }
+      showToast(`Station #${id} Sanitizer Fluid Refilled`);
     });
   });
 
-  // Device pairing toggles
+  if (btnUVC) {
+    btnUVC.addEventListener('click', () => {
+      showToast('⚡ Initiating Automated Autonomous UV-C Corridor Sterilization Cycle...');
+    });
+  }
+}
+
+// Segment 3: Biomedical IoT Terminal & Hardware
+function initIoTSegment() {
+  const terminal = document.getElementById('iot-terminal-body');
+  let streamingPaused = false;
+
+  // Append simulated packets periodically
+  setInterval(() => {
+    if (streamingPaused || !terminal) return;
+    const now = new Date().toISOString().substring(11, 23);
+    const tags = [
+      { tag: 'ecg', name: '[ECG]', text: `LEAD_II: 0x${Math.floor(Math.random()*255).toString(16).toUpperCase()} | HR: ${state.vitals.heartRate} BPM | FILT: 50Hz NOTCH | CRC: OK` },
+      { tag: 'spo2', name: '[SPO2]', text: `MAX30102: RATIO_R: 0.${Math.floor(Math.random()*20 + 75)} | SAT: ${state.vitals.spo2}% | PERF_IDX: 4.8%` },
+      { tag: 'temp', name: '[TEMP]', text: `MLX90614: CORE: ${state.vitals.temp} C | DIE_TEMP: 22.4 C | ACCURACY: ±0.1 C` }
+    ];
+    const picked = tags[Math.floor(Math.random() * tags.length)];
+    const line = document.createElement('div');
+    line.className = 'term-line';
+    line.innerHTML = `<span class="term-ts">[${now}]</span> <span class="term-tag ${picked.tag}">${picked.name}</span> ${picked.text}`;
+    terminal.appendChild(line);
+    if (terminal.childElementCount > 35) {
+      terminal.firstElementChild?.remove();
+    }
+    terminal.scrollTop = terminal.scrollHeight;
+  }, 2800);
+
+  const btnPause = document.getElementById('btn-pause-stream');
+  if (btnPause) {
+    btnPause.addEventListener('click', () => {
+      streamingPaused = !streamingPaused;
+      btnPause.textContent = streamingPaused ? 'Resume Console' : 'Pause Console';
+      showToast(streamingPaused ? 'IoT Telemetry Stream Paused' : 'IoT Telemetry Stream Resumed');
+    });
+  }
+
+  const btnClear = document.getElementById('btn-clear-stream');
+  if (btnClear && terminal) {
+    btnClear.addEventListener('click', () => {
+      terminal.innerHTML = '<div class="term-line"><span class="term-ts">[Console Cleared]</span> Awaiting new ESP32 packets...</div>';
+      showToast('Terminal Log Cleared');
+    });
+  }
+
+  const btnScan = document.getElementById('btn-iot-scan');
+  if (btnScan) {
+    btnScan.addEventListener('click', () => {
+      showToast('📡 Scanning BLE 5.2 Mesh: 5 Medical Nodes Active (0% Packet Loss)');
+    });
+  }
+
+  document.querySelectorAll('.btn-iot-calibrate').forEach(b => {
+    b.addEventListener('click', () => {
+      showToast('Calibrating hardware zero-point & baseline offset... Done (Offset: 0.00)');
+    });
+  });
+}
+
+// Segment 4: Patient EMR Directory & Queue
+function initEMRSegment() {
+  const searchInput = document.getElementById('patient-search-input');
+  const rows = document.querySelectorAll('.patient-row');
+  const filterPills = document.querySelectorAll('.filter-pill');
+
+  // Search by name / bed / ID
+  searchInput?.addEventListener('input', (e) => {
+    const val = e.target.value.toLowerCase();
+    rows.forEach(r => {
+      r.style.display = r.textContent.toLowerCase().includes(val) ? '' : 'none';
+    });
+  });
+
+  // Triage filter pills
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const filter = pill.getAttribute('data-filter');
+
+      rows.forEach(r => {
+        if (filter === 'all') {
+          r.style.display = '';
+        } else if (filter === 'critical') {
+          r.style.display = r.innerHTML.includes('Critical') ? '' : 'none';
+        } else if (filter === 'urgent') {
+          r.style.display = r.innerHTML.includes('Monitored') ? '' : 'none';
+        } else if (filter === 'stable') {
+          r.style.display = (r.innerHTML.includes('Stable') || r.innerHTML.includes('Observing')) ? '' : 'none';
+        }
+      });
+    });
+  });
+
+  // Patient EMR Record Selection
+  const patientsDB = {
+    'P-104': { name: 'Marcus Reynolds (58 M)', bed: 'Ward 4B - Bed 12', diag: 'Post-Op Cardiovascular Monitoring • Hypertensive', notes: 'Patient is recovering well post-coronary intervention. Continuous ECG Lead-II telemetry demonstrates normal sinus pattern.' },
+    'P-105': { name: 'Sarah Jenkins (42 F)', bed: 'Ward 4B - Bed 13', diag: 'Post-C-Section Wound Care & Healing Protocol', notes: 'Incision site dry and intact. Sterile dressing change logged with full hygiene compliance. Afebrile.' },
+    'P-106': { name: 'David Chen (67 M)', bed: 'Ward 4B - Bed 14', diag: 'Acute Respiratory Viral Infection • Isolation Unit', notes: 'High flow oxygen active. Strict negative pressure barrier precautions in place. SpO2 borderline.' },
+    'P-107': { name: 'Anita Roy (34 F)', bed: 'Ward 4B - Bed 15', diag: 'Post-Trauma Sepsis Surveillance Protocol', notes: 'qSOFA score monitored continuous Q15M. Temperature steady at 37.1 C.' }
+  };
+
+  document.querySelectorAll('.btn-switch-patient, .patient-row').forEach(elem => {
+    elem.addEventListener('click', () => {
+      const pid = elem.getAttribute('data-pid');
+      if (!pid || !patientsDB[pid]) return;
+
+      rows.forEach(r => r.classList.remove('selected'));
+      document.querySelector(`.patient-row[data-pid="${pid}"]`)?.classList.add('selected');
+
+      const data = patientsDB[pid];
+      const nameEl = document.getElementById('emr-patient-fullname');
+      const diagEl = document.getElementById('emr-patient-diagnosis');
+      const notesEl = document.getElementById('emr-doctor-notes');
+      const pidBadge = document.getElementById('emr-selected-pid');
+
+      if (nameEl) nameEl.textContent = data.name;
+      if (diagEl) diagEl.textContent = `Bed: ${data.bed} • Diagnosis: ${data.diag}`;
+      if (notesEl) notesEl.value = data.notes;
+      if (pidBadge) pidBadge.textContent = `PATIENT #${pid}`;
+
+      showToast(`Loaded Clinical EMR for Patient #${pid}: ${data.name.split(' ')[0]}`);
+    });
+  });
+
+  const btnSaveNotes = document.getElementById('btn-save-emr-notes');
+  if (btnSaveNotes) {
+    btnSaveNotes.addEventListener('click', () => {
+      showToast('💾 Physician Clinical Notes Encrypted & Saved to EMR Database');
+    });
+  }
+}
+
+// Segment 5: AI Diagnostic Risk Triage
+function initAISegment() {
+  const btnRun = document.getElementById('btn-run-neural-triage');
+  const chkFever = document.getElementById('chk-sym-fever');
+  const chkTachy = document.getElementById('chk-sym-tachy');
+  const chkDyspnea = document.getElementById('chk-sym-dyspnea');
+  const chkHypo = document.getElementById('chk-sym-hypotension');
+
+  function calculateInteractiveNEWS2() {
+    let score = 2; // base
+    if (chkFever?.checked) score += 3;
+    if (chkTachy?.checked) score += 2;
+    if (chkDyspnea?.checked) score += 3;
+    if (chkHypo?.checked) score += 2;
+
+    const news2Val = document.getElementById('news2-score-val');
+    const news2Pill = document.getElementById('news2-pill');
+    const news2Bar = document.getElementById('news2-bar');
+
+    if (news2Val) news2Val.innerHTML = `${score} <small>/ 20</small>`;
+    if (score >= 7) {
+      if (news2Pill) {
+        news2Pill.textContent = `Score: ${score} (Critical Risk)`;
+        news2Pill.className = 'vital-status-pill danger';
+      }
+      if (news2Bar) {
+        news2Bar.style.width = `${Math.min(100, score * 10)}%`;
+        news2Bar.className = 'model-fill red';
+      }
+    } else if (score >= 5) {
+      if (news2Pill) {
+        news2Pill.textContent = `Score: ${score} (Medium Alert)`;
+        news2Pill.className = 'vital-status-pill danger';
+      }
+      if (news2Bar) {
+        news2Bar.style.width = '50%';
+        news2Bar.className = 'model-fill red';
+      }
+    } else {
+      if (news2Pill) {
+        news2Pill.textContent = `Score: ${score} (Low Risk)`;
+        news2Pill.className = 'vital-status-pill normal';
+      }
+      if (news2Bar) {
+        news2Bar.style.width = '20%';
+        news2Bar.className = 'model-fill green';
+      }
+    }
+  }
+
+  [chkFever, chkTachy, chkDyspnea, chkHypo].forEach(chk => {
+    chk?.addEventListener('change', calculateInteractiveNEWS2);
+  });
+
+  if (btnRun) {
+    btnRun.addEventListener('click', () => {
+      showToast('🤖 Running Multi-Head Neural Diagnostic Inference...');
+      calculateInteractiveNEWS2();
+
+      const narrative = document.getElementById('ai-narrative-text');
+      const rec = document.getElementById('ai-rec-box');
+
+      setTimeout(() => {
+        if (chkFever?.checked || chkTachy?.checked) {
+          if (narrative) narrative.textContent = 'NEURAL ANALYSIS: Multimodal telemetry inputs detect elevated inflammatory biomarkers combined with rate instability. High probability of systemic bacteremia or post-operative wound contamination.';
+          if (rec) rec.innerHTML = '<span class="rec-label" style="color: #ef4444;">Stat Intervention:</span> Draw blood cultures x2, initiate empiric broad-spectrum antibiotic protocol, continuous SpO2 & ECG Lead-II telemetry.';
+        } else {
+          if (narrative) narrative.textContent = 'NEURAL ANALYSIS: Continuous Lead-II analysis indicates standard sinus rhythm (Mean: 74 BPM). Pulse Oximetry reflects consistent alveolar perfusion at 98%. Hand sanitation logs recorded 7 cycles in the past 6 hours, maintaining low bacterial cross-transmission probability.';
+          if (rec) rec.innerHTML = '<span class="rec-label">Clinical Decision Support:</span> Patient qualifies for standard post-operative pathway. Continue continuous telemetry and scheduled surface disinfection checks.';
+        }
+        showToast('✅ Neural Inference Complete (Confidence: 99.1%)');
+      }, 700);
+    });
+  }
+
+  // Device pairing toggles in mobile simulator
   document.querySelectorAll('.btn-dev-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
       const isConnected = btn.classList.contains('active');
@@ -531,9 +889,9 @@ function initHardwareControls() {
   });
 
   // Scan BLE button
-  const btnScan = document.getElementById('btn-scan-ble');
-  if (btnScan) {
-    btnScan.addEventListener('click', () => {
+  const btnScanMob = document.getElementById('btn-scan-ble');
+  if (btnScanMob) {
+    btnScanMob.addEventListener('click', () => {
       showToast('Scanning BLE 2.4GHz frequencies... 4 beacons active');
     });
   }
@@ -546,17 +904,6 @@ function initHardwareControls() {
       setTimeout(() => {
         window.print();
       }, 600);
-    });
-  }
-
-  // Re-run AI check button
-  const btnAI = document.getElementById('btn-run-ai-check');
-  if (btnAI) {
-    btnAI.addEventListener('click', () => {
-      showToast('🤖 AI Model Re-evaluating Biometrics & Infection Probability...');
-      setTimeout(() => {
-        showToast('Analysis Complete: Current parameters aligned with standard baseline');
-      }, 1000);
     });
   }
 

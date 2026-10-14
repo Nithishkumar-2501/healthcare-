@@ -111,240 +111,893 @@
         </div>
       </aside>
 
-      <!-- Web Main Content Area -->
+      <!-- Web Main Content Area with 5 Dedicated Application Segments -->
       <div class="web-content-scroll">
         
-        <!-- Live Patient Banner -->
-        <div class="patient-monitor-header">
-          <div class="patient-profile-chip">
-            <div class="patient-avatar">P-104</div>
+        <!-- Top Application Segment Breadcrumb & Actions Bar -->
+        <div class="segment-header-bar">
+          <div class="segment-title-wrap">
+            <div class="segment-icon-pill" id="segment-icon-pill">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
             <div>
-              <div class="p-name">Marcus Reynolds (Age: 58) <span class="badge-status normal">Ward 4B - Bed 12</span></div>
-              <div class="p-conditions">Conditions: Post-Op Cardiovascular Monitoring • Hypertensive</div>
+              <div class="segment-meta-crumb">CLINICAL APPLICATION SEGMENT • <span id="segment-crumb-name" class="crumb-highlight">TELEMETRY</span></div>
+              <h2 class="segment-title-text" id="segment-title-text">Live Telemetry & Bedside Monitoring</h2>
             </div>
           </div>
-          <div class="quick-telemetry-actions">
-            <button id="btn-export-pdf" class="btn-action-outline">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Export Clinical PDF
-            </button>
-            <button id="btn-trigger-anomaly" class="btn-action-warning" title="Simulate patient arrhythmia/fever spike">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              Simulate Tachycardia Spike
-            </button>
-            <button id="btn-normalize-vitals" class="btn-action-success">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Reset Normal Vitals
-            </button>
+          <div class="segment-header-actions" id="segment-header-actions">
+            <!-- Contextual actions rendered dynamically based on active segment -->
           </div>
         </div>
 
-        <!-- 6 Core Vital Telemetry Cards Grid -->
-        <div class="vital-cards-grid">
+        <!-- ============================================================= -->
+        <!-- SEGMENT 1: LIVE TELEMETRY & BEDSIDE MONITORING                -->
+        <!-- ============================================================= -->
+        <div class="web-segment active" id="segment-telemetry" data-segment="telemetry">
           
-          <!-- Card 1: Heart Rate -->
-          <div class="vital-card" id="card-heart-rate">
-            <div class="vital-card-header">
-              <span class="vital-title">Heart Rate (ECG)</span>
-              <span class="vital-icon heart-pulse">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#EF4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </span>
+          <!-- Live Patient Monitor Header -->
+          <div class="patient-monitor-header">
+            <div class="patient-profile-chip">
+              <div class="patient-avatar">P-104</div>
+              <div>
+                <div class="p-name">Marcus Reynolds (Age: 58) <span class="badge-status normal" id="p-bed-badge">Ward 4B - Bed 12</span></div>
+                <div class="p-conditions">Conditions: Post-Op Cardiovascular Monitoring • Hypertensive • Sinus Protocol</div>
+              </div>
             </div>
-            <div class="vital-value-wrap">
-              <span class="vital-main-number" id="web-val-hr">74</span>
-              <span class="vital-unit">BPM</span>
-            </div>
-            <div class="vital-status-bar">
-              <span class="vital-status-pill normal" id="web-status-hr">Normal Sinus</span>
-              <span class="vital-range">Target: 60 - 100</span>
-            </div>
-          </div>
-
-          <!-- Card 2: SpO2 Blood Oxygen -->
-          <div class="vital-card" id="card-spo2">
-            <div class="vital-card-header">
-              <span class="vital-title">Blood Oxygen (SpO2)</span>
-              <span class="vital-icon oxygen-bubble">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#06B6D4" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-              </span>
-            </div>
-            <div class="vital-value-wrap">
-              <span class="vital-main-number" id="web-val-spo2">98</span>
-              <span class="vital-unit">%</span>
-            </div>
-            <div class="vital-status-bar">
-              <span class="vital-status-pill normal" id="web-status-spo2">Optimal Saturation</span>
-              <span class="vital-range">Target: ≥ 95%</span>
-            </div>
-          </div>
-
-          <!-- Card 3: Body Temperature -->
-          <div class="vital-card" id="card-temp">
-            <div class="vital-card-header">
-              <span class="vital-title">Core Temperature</span>
-              <span class="vital-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#F59E0B" stroke-width="2"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
-              </span>
-            </div>
-            <div class="vital-value-wrap">
-              <span class="vital-main-number" id="web-val-temp">36.8</span>
-              <span class="vital-unit">°C</span>
-            </div>
-            <div class="vital-status-bar">
-              <span class="vital-status-pill normal" id="web-status-temp">Afebrile</span>
-              <span class="vital-range">Target: 36.5 - 37.3</span>
-            </div>
-          </div>
-
-          <!-- Card 4: Blood Pressure -->
-          <div class="vital-card" id="card-bp">
-            <div class="vital-card-header">
-              <span class="vital-title">NIBP (Blood Pressure)</span>
-              <span class="vital-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#8B5CF6" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-              </span>
-            </div>
-            <div class="vital-value-wrap">
-              <span class="vital-main-number" id="web-val-bp">120/80</span>
-              <span class="vital-unit">mmHg</span>
-            </div>
-            <div class="vital-status-bar">
-              <span class="vital-status-pill normal" id="web-status-bp">Normotensive</span>
-              <span class="vital-range">MAP: 93 mmHg</span>
-            </div>
-          </div>
-
-          <!-- Card 5: Hygiene Compliance Index -->
-          <div class="vital-card highlight-hygiene" id="card-hygiene-index">
-            <div class="vital-card-header">
-              <span class="vital-title">Hygiene Compliance Score</span>
-              <span class="vital-icon hygiene-sparkle">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#10B981" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-              </span>
-            </div>
-            <div class="vital-value-wrap">
-              <span class="vital-main-number" id="web-val-hygiene">94</span>
-              <span class="vital-unit">/ 100</span>
-            </div>
-            <div class="vital-status-bar">
-              <span class="vital-status-pill high" id="web-status-hygiene">Grade A (Strict Sterile)</span>
-              <span class="vital-range">Daily Clean Index</span>
-            </div>
-          </div>
-
-          <!-- Card 6: Infection Risk Predictor -->
-          <div class="vital-card highlight-risk" id="card-infection-risk">
-            <div class="vital-card-header">
-              <span class="vital-title">Nosocomial Infection Risk</span>
-              <span class="vital-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#06B6D4" stroke-width="2"><shield d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </span>
-            </div>
-            <div class="vital-value-wrap">
-              <span class="vital-main-number" id="web-val-risk">Low</span>
-              <span class="vital-unit">4.2%</span>
-            </div>
-            <div class="vital-status-bar">
-              <span class="vital-status-pill low" id="web-status-risk">Standard Precautions</span>
-              <span class="vital-range">AI Model v4</span>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Real-Time ECG Lead II Oscilloscope Canvas -->
-        <div class="ecg-oscilloscope-container">
-          <div class="ecg-topbar">
-            <div class="ecg-title-group">
-              <span class="ecg-led pulse"></span>
-              <span class="ecg-channel-name">ECG Lead II Telemetry Waveform</span>
-              <span class="ecg-meta-rate">Sweep: 25 mm/s • Gain: 10 mm/mV • Lead II (Biopotential Patch)</span>
-            </div>
-            <div class="ecg-controls">
-              <button id="btn-ecg-freeze" class="btn-micro">
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                Freeze Trace
+            <div class="quick-telemetry-actions">
+              <button id="btn-export-pdf" class="btn-action-outline">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export Clinical PDF
               </button>
-              <button id="btn-ecg-speed" class="btn-micro">25 mm/s</button>
-              <span class="ecg-bpm-readout"><strong id="ecg-live-bpm">74</strong> BPM</span>
+              <button id="btn-trigger-anomaly" class="btn-action-warning" title="Simulate patient arrhythmia/fever spike">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                Simulate Tachycardia Spike
+              </button>
+              <button id="btn-normalize-vitals" class="btn-action-success">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Reset Normal Vitals
+              </button>
             </div>
           </div>
-          <div class="canvas-wrapper">
-            <canvas id="ecgCanvas" width="1050" height="210"></canvas>
-            <div class="canvas-grid-overlay"></div>
+
+          <!-- 6 Core Vital Telemetry Cards Grid -->
+          <div class="vital-cards-grid">
+            
+            <!-- Card 1: Heart Rate -->
+            <div class="vital-card" id="card-heart-rate">
+              <div class="vital-card-header">
+                <span class="vital-title">Heart Rate (ECG)</span>
+                <span class="vital-icon heart-pulse">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#EF4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </span>
+              </div>
+              <div class="vital-value-wrap">
+                <span class="vital-main-number" id="web-val-hr">74</span>
+                <span class="vital-unit">BPM</span>
+              </div>
+              <div class="vital-status-bar">
+                <span class="vital-status-pill normal" id="web-status-hr">Normal Sinus</span>
+                <span class="vital-range">Target: 60 - 100</span>
+              </div>
+            </div>
+
+            <!-- Card 2: SpO2 Blood Oxygen -->
+            <div class="vital-card" id="card-spo2">
+              <div class="vital-card-header">
+                <span class="vital-title">Blood Oxygen (SpO2)</span>
+                <span class="vital-icon oxygen-bubble">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#06B6D4" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </span>
+              </div>
+              <div class="vital-value-wrap">
+                <span class="vital-main-number" id="web-val-spo2">98</span>
+                <span class="vital-unit">%</span>
+              </div>
+              <div class="vital-status-bar">
+                <span class="vital-status-pill normal" id="web-status-spo2">Optimal Saturation</span>
+                <span class="vital-range">Target: ≥ 95%</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Body Temperature -->
+            <div class="vital-card" id="card-temp">
+              <div class="vital-card-header">
+                <span class="vital-title">Core Temperature</span>
+                <span class="vital-icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#F59E0B" stroke-width="2"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+                </span>
+              </div>
+              <div class="vital-value-wrap">
+                <span class="vital-main-number" id="web-val-temp">36.8</span>
+                <span class="vital-unit">°C</span>
+              </div>
+              <div class="vital-status-bar">
+                <span class="vital-status-pill normal" id="web-status-temp">Afebrile</span>
+                <span class="vital-range">Target: 36.5 - 37.3</span>
+              </div>
+            </div>
+
+            <!-- Card 4: Blood Pressure -->
+            <div class="vital-card" id="card-bp">
+              <div class="vital-card-header">
+                <span class="vital-title">NIBP (Blood Pressure)</span>
+                <span class="vital-icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#8B5CF6" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+                </span>
+              </div>
+              <div class="vital-value-wrap">
+                <span class="vital-main-number" id="web-val-bp">120/80</span>
+                <span class="vital-unit">mmHg</span>
+              </div>
+              <div class="vital-status-bar">
+                <span class="vital-status-pill normal" id="web-status-bp">Normotensive</span>
+                <span class="vital-range">MAP: 93 mmHg</span>
+              </div>
+            </div>
+
+            <!-- Card 5: Hygiene Compliance Index -->
+            <div class="vital-card highlight-hygiene" id="card-hygiene-index">
+              <div class="vital-card-header">
+                <span class="vital-title">Hygiene Compliance Score</span>
+                <span class="vital-icon hygiene-sparkle">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#10B981" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                </span>
+              </div>
+              <div class="vital-value-wrap">
+                <span class="vital-main-number" id="web-val-hygiene">94</span>
+                <span class="vital-unit">/ 100</span>
+              </div>
+              <div class="vital-status-bar">
+                <span class="vital-status-pill high" id="web-status-hygiene">Grade A (Strict Sterile)</span>
+                <span class="vital-range">Daily Clean Index</span>
+              </div>
+            </div>
+
+            <!-- Card 6: Infection Risk Predictor -->
+            <div class="vital-card highlight-risk" id="card-infection-risk">
+              <div class="vital-card-header">
+                <span class="vital-title">Nosocomial Infection Risk</span>
+                <span class="vital-icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#06B6D4" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </span>
+              </div>
+              <div class="vital-value-wrap">
+                <span class="vital-main-number" id="web-val-risk">Low</span>
+                <span class="vital-unit">4.2%</span>
+              </div>
+              <div class="vital-status-bar">
+                <span class="vital-status-pill low" id="web-status-risk">Standard Precautions</span>
+                <span class="vital-range">AI Model v4</span>
+              </div>
+            </div>
+
           </div>
+
+          <!-- Real-Time ECG Lead II Oscilloscope Canvas -->
+          <div class="ecg-oscilloscope-container">
+            <div class="ecg-topbar">
+              <div class="ecg-title-group">
+                <span class="ecg-led pulse"></span>
+                <span class="ecg-channel-name">ECG Lead II Telemetry Waveform</span>
+                <span class="ecg-meta-rate">Sweep: 25 mm/s • Gain: 10 mm/mV • Lead II (Biopotential Patch)</span>
+              </div>
+              <div class="ecg-controls">
+                <button id="btn-ecg-freeze" class="btn-micro">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                  Freeze Trace
+                </button>
+                <button id="btn-ecg-speed" class="btn-micro">25 mm/s</button>
+                <span class="ecg-bpm-readout"><strong id="ecg-live-bpm">74</strong> BPM</span>
+              </div>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="ecgCanvas" width="1050" height="210"></canvas>
+              <div class="canvas-grid-overlay"></div>
+            </div>
+          </div>
+
+          <!-- Secondary Telemetry Stream Cards: Plethysmograph & Respiration -->
+          <div class="telemetry-aux-grid">
+            <div class="aux-box">
+              <div class="aux-head">
+                <span class="aux-label">Plethysmograph Waveform (SpO2 Perfusion Index: 4.8%)</span>
+                <span class="badge-mini live">PULSE</span>
+              </div>
+              <div class="pleth-sim-bar">
+                <div class="pleth-wave-visual"></div>
+              </div>
+            </div>
+            <div class="aux-box">
+              <div class="aux-head">
+                <span class="aux-label">Respiratory Rate (Bioimpedance: 16 BrPM)</span>
+                <span class="vital-status-pill normal">Eupnea</span>
+              </div>
+              <div class="resp-sim-bar">
+                <div class="resp-wave-visual"></div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Bottom Web Analytics: Hygiene Station Grid & AI Clinical Insights -->
-        <div class="web-analytics-row">
+
+        <!-- ============================================================= -->
+        <!-- SEGMENT 2: HYGIENE & INFECTION CONTROL CENTER                 -->
+        <!-- ============================================================= -->
+        <div class="web-segment" id="segment-hygiene" data-segment="hygiene">
           
-          <!-- Smart Dispenser & Ward Hygiene Matrix -->
-          <div class="panel-box hygiene-matrix">
-            <div class="panel-header">
-              <div class="panel-title-wrap">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#10B981" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-                <h3>IoT Sanitization & Smart Dispenser Grid</h3>
+          <!-- Top Hygiene KPI Row -->
+          <div class="hygiene-kpi-grid">
+            <div class="hygiene-kpi-card">
+              <div class="kpi-icon-wrap green">🧼</div>
+              <div class="kpi-body">
+                <span class="kpi-label">Ward Hygiene Index</span>
+                <span class="kpi-value">94.8%</span>
+                <span class="kpi-sub green">↑ 3.2% vs Last Shift (Target: ≥90%)</span>
               </div>
-              <span class="chip-active">Ward 4 Coverage: 98%</span>
             </div>
-            <div class="dispenser-cards">
-              <div class="dispenser-card">
-                <div class="disp-meta">
-                  <span class="disp-name">Station Alpha (Bed 12 Entry)</span>
-                  <span class="disp-status ok">Online</span>
-                </div>
-                <div class="disp-progress">
-                  <div class="disp-fill green" style="width: 82%;"></div>
-                </div>
-                <div class="disp-stats">Sanitizer: <strong>82%</strong> • Uses today: <strong>148</strong></div>
+            <div class="hygiene-kpi-card">
+              <div class="kpi-icon-wrap blue">🚿</div>
+              <div class="kpi-body">
+                <span class="kpi-label">Sanitizations Today</span>
+                <span class="kpi-value" id="kpi-disp-total">700</span>
+                <span class="kpi-sub">Across 4 Smart IoT Stations</span>
               </div>
-
-              <div class="dispenser-card">
-                <div class="disp-meta">
-                  <span class="disp-name">Station Beta (Doctor Wash Basin)</span>
-                  <span class="disp-status ok">Online</span>
-                </div>
-                <div class="disp-progress">
-                  <div class="disp-fill blue" style="width: 64%;"></div>
-                </div>
-                <div class="disp-stats">Sanitizer: <strong>64%</strong> • Uses today: <strong>210</strong></div>
+            </div>
+            <div class="hygiene-kpi-card">
+              <div class="kpi-icon-wrap cyan">🛡️</div>
+              <div class="kpi-body">
+                <span class="kpi-label">Nosocomial Infection Rate</span>
+                <span class="kpi-value">0.18%</span>
+                <span class="kpi-sub green">Strict Sterile Tier A Compliant</span>
               </div>
-
-              <div class="dispenser-card">
-                <div class="disp-meta">
-                  <span class="disp-name">Station Gamma (Visitor Air Lock)</span>
-                  <span class="disp-status warn">Refill Warning</span>
-                </div>
-                <div class="disp-progress">
-                  <div class="disp-fill amber" style="width: 18%;"></div>
-                </div>
-                <div class="disp-stats">Sanitizer: <strong>18%</strong> • Uses today: <strong>342</strong></div>
+            </div>
+            <div class="hygiene-kpi-card">
+              <div class="kpi-icon-wrap purple">✨</div>
+              <div class="kpi-body">
+                <span class="kpi-label">Air Cleanliness (AQI)</span>
+                <span class="kpi-value">12 AQI</span>
+                <span class="kpi-sub">HEPA-14 & UV-C Filtration Active</span>
               </div>
             </div>
           </div>
 
-          <!-- AI Clinical Triage & Anomaly Logger -->
-          <div class="panel-box ai-assistant">
+          <!-- Smart IoT Dispenser Grid & Environmental Sensors -->
+          <div class="hygiene-management-row">
+            
+            <!-- Dispenser Hardware Station Grid -->
+            <div class="panel-box flex-2">
+              <div class="panel-header">
+                <div class="panel-title-wrap">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#10B981" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                  <h3>Ward 4 Smart IoT Disinfectant Dispenser Grid</h3>
+                </div>
+                <div class="panel-action-btns">
+                  <button id="btn-refill-all" class="btn-micro-cyan">Refill All Dispensers</button>
+                  <button id="btn-trigger-uvc" class="btn-micro-purple">⚡ Trigger UV-C Cycle</button>
+                </div>
+              </div>
+
+              <div class="dispenser-stations-grid">
+                
+                <div class="station-card" id="station-1">
+                  <div class="st-header">
+                    <span class="st-name">Station Alpha (Bed 12 Entry)</span>
+                    <span class="disp-status ok">● Online</span>
+                  </div>
+                  <div class="st-tank-bar">
+                    <div class="st-tank-fill green" id="st-fill-1" style="width: 82%;"></div>
+                  </div>
+                  <div class="st-details">
+                    <span>Level: <strong id="st-lvl-1">82% (820 ml)</strong></span>
+                    <span>Dispenses: <strong>148</strong></span>
+                    <button class="btn-refill-single" data-st="1">Refill</button>
+                  </div>
+                </div>
+
+                <div class="station-card" id="station-2">
+                  <div class="st-header">
+                    <span class="st-name">Station Beta (Doctor Wash Basin)</span>
+                    <span class="disp-status ok">● Online</span>
+                  </div>
+                  <div class="st-tank-bar">
+                    <div class="st-tank-fill blue" id="st-fill-2" style="width: 64%;"></div>
+                  </div>
+                  <div class="st-details">
+                    <span>Level: <strong id="st-lvl-2">64% (640 ml)</strong></span>
+                    <span>Dispenses: <strong>210</strong></span>
+                    <button class="btn-refill-single" data-st="2">Refill</button>
+                  </div>
+                </div>
+
+                <div class="station-card" id="station-3">
+                  <div class="st-header">
+                    <span class="st-name">Station Gamma (Visitor Air Lock)</span>
+                    <span class="disp-status warn" id="st-status-3">⚠️ Low Fluid</span>
+                  </div>
+                  <div class="st-tank-bar">
+                    <div class="st-tank-fill amber" id="st-fill-3" style="width: 18%;"></div>
+                  </div>
+                  <div class="st-details">
+                    <span>Level: <strong id="st-lvl-3">18% (180 ml)</strong></span>
+                    <span>Dispenses: <strong>342</strong></span>
+                    <button class="btn-refill-single" data-st="3">Refill Tank</button>
+                  </div>
+                </div>
+
+                <div class="station-card" id="station-4">
+                  <div class="st-header">
+                    <span class="st-name">Station Delta (Nurse Station 4)</span>
+                    <span class="disp-status ok">● Online</span>
+                  </div>
+                  <div class="st-tank-bar">
+                    <div class="st-tank-fill green" id="st-fill-4" style="width: 90%;"></div>
+                  </div>
+                  <div class="st-details">
+                    <span>Level: <strong id="st-lvl-4">90% (900 ml)</strong></span>
+                    <span>Dispenses: <strong>96</strong></span>
+                    <button class="btn-refill-single" data-st="4">Refill</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Ward Environmental Air & Biological Pathogen Sensor -->
+            <div class="panel-box flex-1">
+              <div class="panel-header">
+                <div class="panel-title-wrap">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#06B6D4" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <h3>Ward Environmental Telemetry</h3>
+                </div>
+                <span class="chip-active">Sensirion SGP40</span>
+              </div>
+              
+              <div class="env-telemetry-list">
+                <div class="env-item">
+                  <div class="env-meta">
+                    <span class="env-name">Particulate Matter (PM2.5)</span>
+                    <span class="env-val ok">6.4 µg/m³</span>
+                  </div>
+                  <div class="env-bar"><div class="env-fill green" style="width: 12%;"></div></div>
+                </div>
+
+                <div class="env-item">
+                  <div class="env-meta">
+                    <span class="env-name">Total VOC Index</span>
+                    <span class="env-val ok">0.03 ppm (Sterile)</span>
+                  </div>
+                  <div class="env-bar"><div class="env-fill green" style="width: 8%;"></div></div>
+                </div>
+
+                <div class="env-item">
+                  <div class="env-meta">
+                    <span class="env-name">Carbon Dioxide (CO2)</span>
+                    <span class="env-val ok">460 ppm</span>
+                  </div>
+                  <div class="env-bar"><div class="env-fill blue" style="width: 25%;"></div></div>
+                </div>
+
+                <div class="env-item">
+                  <div class="env-meta">
+                    <span class="env-name">Relative Humidity / Temp</span>
+                    <span class="env-val ok">45% • 22.4°C</span>
+                  </div>
+                  <div class="env-bar"><div class="env-fill purple" style="width: 45%;"></div></div>
+                </div>
+              </div>
+
+              <div class="sterilization-status-box">
+                <div class="steril-icon">🤖</div>
+                <div>
+                  <div class="steril-title">Autonomous UV-C Disinfection Robot</div>
+                  <div class="steril-sub">Status: Docked (Next sweep in 1h 20m) • Coverage: 100%</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- WHO 5 Moments Staff Hygiene Audit Log Table -->
+          <div class="panel-box">
             <div class="panel-header">
               <div class="panel-title-wrap">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#06B6D4" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-                <h3>AI Clinical Risk Assessment</h3>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#10B981" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <h3>WHO 5 Moments of Hand Hygiene Audit Log</h3>
               </div>
-              <button id="btn-run-ai-check" class="btn-micro-cyan">Re-evaluate Patient</button>
+              <span class="badge-mini live">LIVE AUDIT</span>
             </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Staff / Practitioner</th>
+                    <th>WHO Hygiene Moment Category</th>
+                    <th>Location / Bed</th>
+                    <th>Method</th>
+                    <th>Compliance Result</th>
+                  </tr>
+                </thead>
+                <tbody id="hygiene-audit-tbody">
+                  <tr>
+                    <td>09:42:15</td>
+                    <td>Dr. Elena Vance (Lead MD)</td>
+                    <td>Before touching patient</td>
+                    <td>Ward 4B - Bed 12</td>
+                    <td>Chlorhexidine Rub (22s)</td>
+                    <td><span class="vital-status-pill normal">Compliant (100%)</span></td>
+                  </tr>
+                  <tr>
+                    <td>09:35:08</td>
+                    <td>Nurse David K. (RN)</td>
+                    <td>After body fluid exposure risk</td>
+                    <td>Ward 4B - Bed 14</td>
+                    <td>Antiseptic Handwash (25s)</td>
+                    <td><span class="vital-status-pill normal">Compliant (100%)</span></td>
+                  </tr>
+                  <tr>
+                    <td>09:21:40</td>
+                    <td>Tech M. Morales</td>
+                    <td>After touching patient surroundings</td>
+                    <td>Ward 4B - Bed 12</td>
+                    <td>Alcohol Foam (18s)</td>
+                    <td><span class="vital-status-pill normal">Compliant (100%)</span></td>
+                  </tr>
+                  <tr>
+                    <td>09:04:12</td>
+                    <td>Dr. Sarah Lee</td>
+                    <td>Before clean/aseptic procedure</td>
+                    <td>Ward 4B - Bed 15</td>
+                    <td>Sterile Surgical Scrub (45s)</td>
+                    <td><span class="vital-status-pill normal">Compliant (100%)</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- ============================================================= -->
+        <!-- SEGMENT 3: BIOMEDICAL IOT HUB & SENSORS GATEWAY               -->
+        <!-- ============================================================= -->
+        <div class="web-segment" id="segment-devices" data-segment="devices">
+          
+          <!-- Gateway Status Banner -->
+          <div class="gateway-overview-box">
+            <div class="gw-chip-left">
+              <div class="gw-radar-pulse"></div>
+              <div>
+                <h3>ESP32-S3 Biomedical Hardware Gateway</h3>
+                <p>Node ID: <code>GW-WARD4-A9</code> • IP: <code>192.168.1.104</code> • BLE Mesh 5.2 • MQTT Broker: <code>Connected</code></p>
+              </div>
+            </div>
+            <div class="gw-metrics-right">
+              <div class="gw-stat"><span class="stat-num">250 Hz</span><span class="stat-lbl">ECG ADC Sample</span></div>
+              <div class="gw-stat"><span class="stat-num">5</span><span class="stat-lbl">Connected Beacons</span></div>
+              <div class="gw-stat"><span class="stat-num">0.00%</span><span class="stat-lbl">Packet Loss</span></div>
+              <button id="btn-iot-scan" class="btn-micro-cyan">Scan BLE Devices</button>
+            </div>
+          </div>
+
+          <!-- Connected Biomedical IoT Sensors 5-Grid -->
+          <div class="iot-device-grid">
             
-            <div class="ai-insight-content" id="ai-insight-box">
-              <div class="ai-badge-row">
-                <span class="ai-badge normal">Biometric Baseline Stable</span>
-                <span class="ai-badge normal">Hygiene Protocol Followed</span>
+            <!-- Sensor 1: BioPatch ECG -->
+            <div class="iot-card connected">
+              <div class="iot-card-top">
+                <div class="iot-dev-icon">💓</div>
+                <div class="iot-dev-meta">
+                  <h4>BioPatch 3-Lead ECG</h4>
+                  <p>ADS1292R Biopotential Front-End</p>
+                </div>
+                <span class="badge-mini live">STREAMING</span>
               </div>
-              <p class="ai-text">
-                Continuous Lead-II analysis indicates standard sinus rhythm (Mean: 74 BPM). Pulse Oximetry reflects consistent alveolar perfusion at 98%. Hand sanitation logs recorded 7 cycles in the past 6 hours, maintaining low bacterial cross-transmission probability.
-              </p>
-              <div class="ai-recommendation">
-                <span class="rec-label">Clinical Recommendation:</span> Continue routine vital sampling. Next scheduled surface disinfection check in 45 minutes.
+              <div class="iot-details-grid">
+                <div class="iot-detail-item">Battery: <strong>88%</strong></div>
+                <div class="iot-detail-item">RSSI: <strong>-42 dBm</strong> (Strong)</div>
+                <div class="iot-detail-item">Lead Mode: <strong>Lead II</strong></div>
+                <div class="iot-detail-item">Noise Filter: <strong>50/60 Hz Notch</strong></div>
+              </div>
+              <div class="iot-card-actions">
+                <button class="btn-iot-action active" data-hw="ecg">Paired & Active</button>
+                <button class="btn-iot-calibrate" data-hw="ecg">Calibrate</button>
               </div>
             </div>
+
+            <!-- Sensor 2: PulseGuard SpO2 -->
+            <div class="iot-card connected">
+              <div class="iot-card-top">
+                <div class="iot-dev-icon">🫁</div>
+                <div class="iot-dev-meta">
+                  <h4>PulseGuard Oximeter v2</h4>
+                  <p>MAX30102 Optical Sensor</p>
+                </div>
+                <span class="badge-mini live">STREAMING</span>
+              </div>
+              <div class="iot-details-grid">
+                <div class="iot-detail-item">Battery: <strong>92%</strong></div>
+                <div class="iot-detail-item">RSSI: <strong>-55 dBm</strong></div>
+                <div class="iot-detail-item">IR LED Drive: <strong>6.8 mA</strong></div>
+                <div class="iot-detail-item">Red LED Drive: <strong>6.2 mA</strong></div>
+              </div>
+              <div class="iot-card-actions">
+                <button class="btn-iot-action active" data-hw="spo2">Paired & Active</button>
+                <button class="btn-iot-calibrate" data-hw="spo2">Calibrate</button>
+              </div>
+            </div>
+
+            <!-- Sensor 3: ThermoSense Temp -->
+            <div class="iot-card connected">
+              <div class="iot-card-top">
+                <div class="iot-dev-icon">🌡️</div>
+                <div class="iot-dev-meta">
+                  <h4>ThermoSense Continuous IR</h4>
+                  <p>MLX90614 Contactless Beacon</p>
+                </div>
+                <span class="badge-mini live">STREAMING</span>
+              </div>
+              <div class="iot-details-grid">
+                <div class="iot-detail-item">Battery: <strong>76%</strong></div>
+                <div class="iot-detail-item">RSSI: <strong>-60 dBm</strong></div>
+                <div class="iot-detail-item">Accuracy: <strong>±0.1°C</strong></div>
+                <div class="iot-detail-item">Interval: <strong>1.0s</strong></div>
+              </div>
+              <div class="iot-card-actions">
+                <button class="btn-iot-action active" data-hw="temp">Paired & Active</button>
+                <button class="btn-iot-calibrate" data-hw="temp">Calibrate</button>
+              </div>
+            </div>
+
+            <!-- Sensor 4: SmartWash RFID Beacon -->
+            <div class="iot-card connected">
+              <div class="iot-card-top">
+                <div class="iot-dev-icon">🧼</div>
+                <div class="iot-dev-meta">
+                  <h4>SmartWash Station Beacon</h4>
+                  <p>NTAG213 Proximity Sensor</p>
+                </div>
+                <span class="badge-mini live">ONLINE</span>
+              </div>
+              <div class="iot-details-grid">
+                <div class="iot-detail-item">Battery: <strong>94%</strong></div>
+                <div class="iot-detail-item">Zone: <strong>Bed 12 Entry</strong></div>
+                <div class="iot-detail-item">Ultrasonic Level: <strong>82 cm</strong></div>
+                <div class="iot-detail-item">Dispense Motor: <strong>Ready</strong></div>
+              </div>
+              <div class="iot-card-actions">
+                <button class="btn-iot-action active" data-hw="disp">Paired & Active</button>
+                <button class="btn-iot-calibrate" data-hw="disp">Test Pump</button>
+              </div>
+            </div>
+
+            <!-- Sensor 5: NIBP Blood Pressure Cuff -->
+            <div class="iot-card connected">
+              <div class="iot-card-top">
+                <div class="iot-dev-icon">🩸</div>
+                <div class="iot-dev-meta">
+                  <h4>Auto-Inflate NIBP Cuff</h4>
+                  <p>Oscillometric Pressure Module</p>
+                </div>
+                <span class="badge-mini live">STANDBY</span>
+              </div>
+              <div class="iot-details-grid">
+                <div class="iot-detail-item">Battery: <strong>85%</strong></div>
+                <div class="iot-detail-item">Last Reading: <strong>120/80</strong></div>
+                <div class="iot-detail-item">Cuff Pressure: <strong>0 mmHg</strong></div>
+                <div class="iot-detail-item">Schedule: <strong>Q30M</strong></div>
+              </div>
+              <div class="iot-card-actions">
+                <button class="btn-iot-action active" data-hw="bp">Start NIBP Cycle</button>
+                <button class="btn-iot-calibrate" data-hw="bp">Calibrate</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Live Raw Biomedical Telemetry Stream Terminal -->
+          <div class="panel-box">
+            <div class="panel-header">
+              <div class="panel-title-wrap">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#22C55E" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                <h3>Live Raw Telemetry Packet Terminal (250 Hz Stream)</h3>
+              </div>
+              <div class="panel-action-btns">
+                <button id="btn-pause-stream" class="btn-micro">Pause Console</button>
+                <button id="btn-clear-stream" class="btn-micro">Clear Log</button>
+              </div>
+            </div>
+            <div class="terminal-body" id="iot-terminal-body">
+              <div class="term-line"><span class="term-ts">[09:43:00.104]</span> <span class="term-tag ecg">[ECG]</span> LEAD_II: 0x4A 0x82 0x7F | RAW: 74 BPM | STATUS: NO_ARRHYTHMIA | CRC: OK</div>
+              <div class="term-line"><span class="term-ts">[09:43:00.354]</span> <span class="term-tag spo2">[SPO2]</span> RED_AC: 14210 IR_AC: 16890 | RATIO_R: 0.84 | CALC_SPO2: 98% | PI: 4.8%</div>
+              <div class="term-line"><span class="term-ts">[09:43:00.604]</span> <span class="term-tag temp">[TEMP]</span> IR_OBJECT: 36.82 C | AMBIENT: 22.40 C | DRIFT: +0.02 C | STATUS: AFEBRILE</div>
+              <div class="term-line"><span class="term-ts">[09:43:00.854]</span> <span class="term-tag disp">[DISP]</span> STATION_01: RFID_EVENT USER_ID: DR_VANCE_104 | DURATION: 22s | RESULT: COMPLIANT</div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- ============================================================= -->
+        <!-- SEGMENT 4: PATIENT EMR QUEUE & WARD DIRECTORY                 -->
+        <!-- ============================================================= -->
+        <div class="web-segment" id="segment-patients" data-segment="patients">
+          
+          <!-- EMR Header & Search Controls -->
+          <div class="emr-controls-bar">
+            <div class="search-input-wrap">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="patient-search-input" placeholder="Search patient by name, ID (#P-104), or Bed number...">
+            </div>
+            <div class="triage-filter-pills">
+              <button class="filter-pill active" data-filter="all">All Patients (4)</button>
+              <button class="filter-pill red" data-filter="critical">Critical / Alert (1)</button>
+              <button class="filter-pill yellow" data-filter="urgent">Urgent / Monitored (2)</button>
+              <button class="filter-pill green" data-filter="stable">Stable / Recovering (1)</button>
+            </div>
+          </div>
+
+          <!-- Ward Patients Table & Live Cards -->
+          <div class="emr-layout-grid">
+            
+            <div class="panel-box flex-3">
+              <div class="panel-header">
+                <h3>Ward 4 Bed Directory & Patient Triage Queue</h3>
+                <span class="chip-active">Capacity: 4 / 6 Beds Occupied</span>
+              </div>
+
+              <div class="table-responsive">
+                <table class="data-table selectable-rows" id="patient-queue-table">
+                  <thead>
+                    <tr>
+                      <th>Patient ID</th>
+                      <th>Name & Age</th>
+                      <th>Bed</th>
+                      <th>Primary Condition</th>
+                      <th>Current Vitals</th>
+                      <th>Hygiene Index</th>
+                      <th>Triage Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="patient-row selected" data-pid="P-104">
+                      <td><strong class="pid-tag">P-104</strong></td>
+                      <td><strong>Marcus Reynolds</strong> (58 M)</td>
+                      <td><span class="bed-pill">Ward 4B - Bed 12</span></td>
+                      <td>Post-Op Cardiovascular</td>
+                      <td><span class="v-pill ok" id="tbl-vitals-p104">74 BPM • 98% SpO2</span></td>
+                      <td><span class="h-pill ok">94% (Grade A)</span></td>
+                      <td><span class="vital-status-pill normal">Monitored</span></td>
+                      <td><button class="btn-micro-cyan btn-switch-patient" data-pid="P-104">Active Feed</button></td>
+                    </tr>
+                    <tr class="patient-row" data-pid="P-105">
+                      <td><strong class="pid-tag">P-105</strong></td>
+                      <td><strong>Sarah Jenkins</strong> (42 F)</td>
+                      <td><span class="bed-pill">Ward 4B - Bed 13</span></td>
+                      <td>Post-C-Section Wound Care</td>
+                      <td><span class="v-pill ok">78 BPM • 99% SpO2</span></td>
+                      <td><span class="h-pill ok">96% (Grade A)</span></td>
+                      <td><span class="vital-status-pill normal">Stable</span></td>
+                      <td><button class="btn-micro-cyan btn-switch-patient" data-pid="P-105">Switch Feed</button></td>
+                    </tr>
+                    <tr class="patient-row" data-pid="P-106">
+                      <td><strong class="pid-tag">P-106</strong></td>
+                      <td><strong>David Chen</strong> (67 M)</td>
+                      <td><span class="bed-pill">Ward 4B - Bed 14</span></td>
+                      <td>Acute Respiratory Infection</td>
+                      <td><span class="v-pill warn">104 BPM • 93% SpO2</span></td>
+                      <td><span class="h-pill warn">81% (Grade B)</span></td>
+                      <td><span class="vital-status-pill danger">Critical / Iso</span></td>
+                      <td><button class="btn-micro-cyan btn-switch-patient" data-pid="P-106">Switch Feed</button></td>
+                    </tr>
+                    <tr class="patient-row" data-pid="P-107">
+                      <td><strong class="pid-tag">P-107</strong></td>
+                      <td><strong>Anita Roy</strong> (34 F)</td>
+                      <td><span class="bed-pill">Ward 4B - Bed 15</span></td>
+                      <td>Sepsis Prevention Protocol</td>
+                      <td><span class="v-pill ok">82 BPM • 97% SpO2</span></td>
+                      <td><span class="h-pill ok">91% (Grade A)</span></td>
+                      <td><span class="vital-status-pill normal">Observing</span></td>
+                      <td><button class="btn-micro-cyan btn-switch-patient" data-pid="P-107">Switch Feed</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Detailed Selected Patient EMR Drawer -->
+            <div class="panel-box flex-2" id="emr-detail-panel">
+              <div class="panel-header">
+                <h3>Electronic Medical Record (EMR)</h3>
+                <span class="badge-mini live" id="emr-selected-pid">PATIENT #P-104</span>
+              </div>
+
+              <div class="emr-patient-detail-card">
+                <div class="emr-card-head">
+                  <div class="avatar-ring large">MR</div>
+                  <div>
+                    <h4 id="emr-patient-fullname">Marcus Reynolds (58 M)</h4>
+                    <p id="emr-patient-diagnosis">Admission Date: Oct 11, 2026 • Attending: Dr. Elena Vance</p>
+                  </div>
+                </div>
+
+                <div class="emr-section">
+                  <h5>Active Medications & Hygiene Regimen</h5>
+                  <div class="emr-rx-list">
+                    <div class="emr-rx-chip">💊 Metoprolol 25mg PO Daily (08:00)</div>
+                    <div class="emr-rx-chip">💊 Aspirin 81mg PO Daily (12:00)</div>
+                    <div class="emr-rx-chip">🧼 Chlorhexidine 2% Skin Prep Q12H</div>
+                  </div>
+                </div>
+
+                <div class="emr-section">
+                  <h5>Known Allergies & Clinical Flags</h5>
+                  <div class="emr-flags">
+                    <span class="flag-pill red">Penicillin (Anaphylaxis)</span>
+                    <span class="flag-pill amber">Latex Sensitivity</span>
+                    <span class="flag-pill blue">Fall Risk Assessment: Low</span>
+                  </div>
+                </div>
+
+                <div class="emr-section">
+                  <h5>Physician Clinical Notes</h5>
+                  <textarea class="emr-notes-textarea" id="emr-doctor-notes" rows="4">Patient is recovering well post-coronary intervention. Continuous ECG Lead-II telemetry demonstrates normal sinus pattern. Hand hygiene logs verify 100% staff compliance prior to wound contact. Continue current protocol.</textarea>
+                  <button id="btn-save-emr-notes" class="btn-action-success" style="margin-top: 8px;">Save Physician Notes</button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ============================================================= -->
+        <!-- SEGMENT 5: AI RISK TRIAGE & DIAGNOSTIC INTELLIGENCE           -->
+        <!-- ============================================================= -->
+        <div class="web-segment" id="segment-ai-triage" data-segment="ai-triage">
+          
+          <!-- Top AI Clinical Risk Predictor Banner -->
+          <div class="ai-models-overview">
+            
+            <!-- Model 1: NEWS2 Early Warning -->
+            <div class="ai-model-card" id="card-ai-news2">
+              <div class="model-badge-top">
+                <span class="model-name">NEWS2 Early Warning Score</span>
+                <span class="vital-status-pill normal" id="news2-pill">Score: 2 (Low Risk)</span>
+              </div>
+              <div class="model-num" id="news2-score-val">2 <small>/ 20</small></div>
+              <div class="model-progress">
+                <div class="model-fill green" id="news2-bar" style="width: 15%;"></div>
+              </div>
+              <p class="model-desc">Calculated from continuous pulse, respiration, SpO2, systolic BP, and core body temperature.</p>
+            </div>
+
+            <!-- Model 2: Sepsis & Nosocomial Risk -->
+            <div class="ai-model-card" id="card-ai-sepsis">
+              <div class="model-badge-top">
+                <span class="model-name">Sepsis Early Detection (qSOFA)</span>
+                <span class="vital-status-pill normal" id="sepsis-pill">Negative (0/3)</span>
+              </div>
+              <div class="model-num" id="sepsis-score-val">0 <small>/ 3</small></div>
+              <div class="model-progress">
+                <div class="model-fill green" id="sepsis-bar" style="width: 0%;"></div>
+              </div>
+              <p class="model-desc">Real-time surveillance of respiratory rate, altered mental status, and blood pressure collapse.</p>
+            </div>
+
+            <!-- Model 3: Arrhythmia Classifier -->
+            <div class="ai-model-card" id="card-ai-arrhythmia">
+              <div class="model-badge-top">
+                <span class="model-name">Deep ECG Neural Classifier</span>
+                <span class="vital-status-pill normal" id="arrhythmia-pill">Sinus Rhythm</span>
+              </div>
+              <div class="model-num" id="arrhythmia-conf-val">99.2% <small>Confidence</small></div>
+              <div class="model-progress">
+                <div class="model-fill blue" style="width: 99%;"></div>
+              </div>
+              <p class="model-desc">ResNet-34 1D-Convolution model analyzing QRS complex morphology and R-R interval jitter.</p>
+            </div>
+
+          </div>
+
+          <!-- Interactive AI Symptom & Biomarker Checker Workspace -->
+          <div class="ai-diagnostic-workspace">
+            
+            <div class="panel-box flex-3">
+              <div class="panel-header">
+                <div class="panel-title-wrap">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#06B6D4" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                  <h3>Interactive Clinical Biomarker & Symptom Assessment</h3>
+                </div>
+                <button id="btn-run-neural-triage" class="btn-micro-cyan">⚡ Run Deep Neural Assessment</button>
+              </div>
+
+              <div class="symptom-selection-grid">
+                <label class="symptom-checkbox">
+                  <input type="checkbox" id="chk-sym-fever">
+                  <span>Febrile Episode (Temp &gt; 38.0°C)</span>
+                </label>
+                <label class="symptom-checkbox">
+                  <input type="checkbox" id="chk-sym-dyspnea">
+                  <span>Shortness of Breath / Dyspnea</span>
+                </label>
+                <label class="symptom-checkbox">
+                  <input type="checkbox" id="chk-sym-tachy">
+                  <span>Tachycardia / Palpitations (&gt;100 BPM)</span>
+                </label>
+                <label class="symptom-checkbox">
+                  <input type="checkbox" id="chk-sym-hypotension">
+                  <span>Hypotension / Lightheadedness</span>
+                </label>
+                <label class="symptom-checkbox">
+                  <input type="checkbox" id="chk-sym-wound">
+                  <span>Surgical Site Erythema / Warmth</span>
+                </label>
+                <label class="symptom-checkbox">
+                  <input type="checkbox" id="chk-sym-hygiene-lapse">
+                  <span>Missed Hand Hygiene Routine (&lt;70%)</span>
+                </label>
+              </div>
+
+              <!-- Real-time AI Generated Assessment Box -->
+              <div class="ai-insight-content" id="ai-insight-box-extended" style="margin-top: 16px;">
+                <div class="ai-badge-row">
+                  <span class="ai-badge normal" id="ai-main-badge-1">Biometric Baseline Stable</span>
+                  <span class="ai-badge normal" id="ai-main-badge-2">Strict Hygiene Protocols Intact</span>
+                </div>
+                <p class="ai-text" id="ai-narrative-text">
+                  Continuous Lead-II analysis indicates standard sinus rhythm (Mean: 74 BPM). Pulse Oximetry reflects consistent alveolar perfusion at 98%. Hand sanitation logs recorded 7 cycles in the past 6 hours, maintaining low bacterial cross-transmission probability.
+                </p>
+                <div class="ai-recommendation" id="ai-rec-box">
+                  <span class="rec-label">Clinical Decision Support:</span> Patient qualifies for standard post-operative pathway. Continue continuous telemetry and scheduled surface disinfection checks.
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Explainable AI Decision Breakdown -->
+            <div class="panel-box flex-2">
+              <div class="panel-header">
+                <h3>Explainable AI Feature Weights</h3>
+                <span class="chip-active">SHAP Values</span>
+              </div>
+
+              <div class="feature-weights-list">
+                <div class="weight-item">
+                  <div class="w-head"><span>R-R Interval Variance</span><strong>+0.34 (Positive Sinus)</strong></div>
+                  <div class="w-bar"><div class="w-fill green" style="width: 78%;"></div></div>
+                </div>
+
+                <div class="weight-item">
+                  <div class="w-head"><span>Peripheral Oxygenation (SpO2)</span><strong>+0.29 (Adequate Perfusion)</strong></div>
+                  <div class="w-bar"><div class="w-fill green" style="width: 72%;"></div></div>
+                </div>
+
+                <div class="weight-item">
+                  <div class="w-head"><span>Hygiene Compliance Rate</span><strong>+0.22 (Low Infection Odds)</strong></div>
+                  <div class="w-bar"><div class="w-fill green" style="width: 60%;"></div></div>
+                </div>
+
+                <div class="weight-item">
+                  <div class="w-head"><span>Core Temperature Stability</span><strong>+0.15 (Afebrile)</strong></div>
+                  <div class="w-bar"><div class="w-fill blue" style="width: 45%;"></div></div>
+                </div>
+              </div>
+
+              <div class="guideline-ref-box">
+                <h4>Clinical Practice Guidelines Referenced:</h4>
+                <p>• ACC/AHA Post-Operative Arrhythmia Protocol</p>
+                <p>• Surviving Sepsis Campaign (2025/2026 Guidelines)</p>
+                <p>• WHO Guidelines on Hand Hygiene in Health Care</p>
+              </div>
+            </div>
+
           </div>
 
         </div>
