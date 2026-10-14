@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BioHygiene OS - Smart Biomedical & Hygiene Telemetry Platform</title>
+  <link rel="icon" type="image/png" href="/logo.png">
+  <link rel="shortcut icon" type="image/png" href="/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,10 +16,7 @@
   <header class="global-navbar" id="global-navbar">
     <div class="nav-brand">
       <div class="brand-logo-glow">
-        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-          <circle cx="12" cy="12" r="4" fill="rgba(6, 182, 212, 0.2)" />
-        </svg>
+        <img src="/logo.png" alt="BioHygiene OS Logo" class="brand-logo-img">
       </div>
       <div class="brand-meta">
         <span class="brand-title">BioHygiene <span class="badge-accent">OS v3.2</span></span>
@@ -1033,6 +1032,22 @@
           <!-- Mobile App Views Container -->
           <div class="mobile-app-body">
             
+            <!-- Mobile App Top Bar with Logo & Branding -->
+            <div class="mob-top-brand-bar">
+              <div class="mob-brand-group">
+                <div class="mob-logo-glow">
+                  <img src="/logo.png" alt="BioHygiene App Logo" class="mob-logo-img">
+                </div>
+                <div class="mob-brand-meta">
+                  <span class="mob-app-name">BioHygiene</span>
+                  <span class="mob-app-sub">Health & BioTech</span>
+                </div>
+              </div>
+              <div class="mob-status-tag" id="mob-device-sync-tag">
+                <span class="dot-sync"></span> BLE Active
+              </div>
+            </div>
+
             <!-- TAB 1: MOBILE HOME (Dashboard) -->
             <div class="mobile-tab-content active" id="tab-mob-home">
               <div class="mob-header">
@@ -1040,9 +1055,7 @@
                   <span class="mob-greeting">Good Morning,</span>
                   <h2 class="mob-username">Marcus Reynolds</h2>
                 </div>
-                <div class="mob-status-tag" id="mob-device-sync-tag">
-                  <span class="dot-sync"></span> BLE Connected
-                </div>
+                <div class="mob-ward-pill">Ward 4B • Bed 12</div>
               </div>
 
               <!-- Daily Hygiene Ring & Streak Card -->
@@ -1307,6 +1320,12 @@
   <!-- SOS Emergency Modal Window -->
   <div class="modal-backdrop" id="modal-sos">
     <div class="modal-box modal-sos-content">
+      <div class="sos-brand-header">
+        <div class="sos-brand-logo-wrap">
+          <img src="/logo.png" alt="BioHygiene Logo" class="sos-shield-logo">
+        </div>
+        <span class="sos-org-tag">BioHygiene Clinical Safety Protocol</span>
+      </div>
       <div class="sos-icon-danger">
         <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#EF4444" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       </div>
@@ -1332,6 +1351,9 @@
     <div class="modal-box modal-video-content">
       <div class="video-call-header">
         <div class="video-doc-info">
+          <div class="modal-logo-badge">
+            <img src="/logo.png" alt="BioHygiene" class="modal-logo-img">
+          </div>
           <div class="doc-pic">EV</div>
           <div>
             <h4>Dr. Elena Vance, MD</h4>
@@ -1368,6 +1390,9 @@
     <div class="modal-box modal-chat-content">
       <div class="chat-header">
         <div class="chat-doc-info">
+          <div class="modal-logo-badge">
+            <img src="/logo.png" alt="BioHygiene" class="modal-logo-img">
+          </div>
           <div class="avatar-ring">DR</div>
           <div>
             <h4>Clinical Care Team (Ward 4B)</h4>
